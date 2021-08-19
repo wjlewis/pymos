@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAnimationFrame } from '../hooks';
 
 const Section: React.FC = () => {
   return (
@@ -44,6 +45,8 @@ const Section: React.FC = () => {
 };
 
 const Graphics: React.FC = () => {
+  const frame = useAnimationFrame();
+
   return null;
 };
 

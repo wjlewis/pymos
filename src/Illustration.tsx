@@ -3,6 +3,7 @@ import { StateContext, Actions as A, Selectors as S } from './state';
 import { useDims, useMouse } from './hooks';
 import { Vec } from './tools';
 import ControlPoints from './ControlPoints';
+import MainTriangle from './MainTriangle';
 import DebugPoints from './DebugPoints';
 
 const Illustration: React.FC = () => {
@@ -32,6 +33,8 @@ const Illustration: React.FC = () => {
       >
         <g transform={`${translation}`}>
           <DebugPoints />
+
+          <MainTriangle />
           <ControlPoints />
           <Graphics />
         </g>

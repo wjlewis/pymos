@@ -6,6 +6,8 @@ export interface State {
   tri: RightTriangle;
   dragSubject: DragSubject;
   stepIndex: number;
+  frame: number;
+  rafHandle: undefined | number;
 }
 
 export interface UIState {
@@ -29,6 +31,8 @@ export const initState: State = {
   },
   dragSubject: DragSubject.None(),
   stepIndex: 0,
+  frame: 0,
+  rafHandle: undefined,
 };
 
 // v -> *

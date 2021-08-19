@@ -1,4 +1,4 @@
-import { State, RightTriangle } from './state';
+import { State } from './state';
 import { steps } from '../steps';
 
 export function canGoPrevious(state: State): boolean {
@@ -19,8 +19,4 @@ export function currentSection(state: State): React.FC {
 
 export function currentGraphics(state: State): React.FC {
   return steps[state.stepIndex].graphics;
-}
-
-export function tri(state: State): RightTriangle {
-  return state.tri;
 }

@@ -1,3 +1,3 @@
-export * from './useReducer';
+export * from './useAnimation';
 export * from './useDims';
 export * from './useMouse';

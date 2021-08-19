@@ -1,12 +1,12 @@
 import React from 'react';
-import { StateContext, Actions as A, Selectors as S } from './state';
+import { StateContext, Actions as A } from './state';
 
 export const CONTROL_POINT_RADIUS = 8;
 
 const ControlPoints: React.FC = () => {
   const { state, dispatch } = React.useContext(StateContext);
 
-  const { r, h, v } = S.tri(state);
+  const { r, h, v } = state.tri;
 
   function handleRDown() {
     return dispatch(A.mouseDownRVertex());

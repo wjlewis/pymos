@@ -13,6 +13,9 @@
   --bg: #f7f4e3;
   --header-font: 'Merriweather', serif;
   --body-font: 'Open Sans', sans-serif;
+  --blue: #4971dd;
+  --yellow: #edbd53;
+  --green: #2dba66;
   --debug: #864ef1;
 }
 
@@ -121,8 +124,16 @@ code {
   height: 100%;
 }
 
+.main-triangle {
+  fill: var(--green);
+  stroke: var(--green);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
 .control-point {
   cursor: move;
+  fill: var(--blue);
 }
 
 .debug-point {

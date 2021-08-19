@@ -6,6 +6,10 @@ import { Vec, sign } from '../tools';
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case ActionType.UpdateFrame: {
+      const { frame, rafHandle } = action.payload;
+      return { ...state, frame, rafHandle };
+    }
     case ActionType.PreviousStep:
       return reducePreviousStep(state);
     case ActionType.NextStep:

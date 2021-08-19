@@ -1,23 +1,12 @@
 import React from 'react';
-import {
-  StateContext,
-  initState,
-  reducer,
-  logActions,
-  Actions as A,
-} from './state';
-import { useReducer } from './hooks';
+import { StateContext, initState, reducer } from './state';
 import Header from './Header';
 import Prose from './Prose';
 import Illustration from './Illustration';
 import Footer from './Footer';
 
 const App: React.FC = () => {
-  const [state, dispatch] = useReducer(
-    reducer,
-    initState,
-    logActions(A.ActionType.MouseMove)
-  );
+  const [state, dispatch] = React.useReducer(reducer, initState);
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>

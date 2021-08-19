@@ -13,6 +13,7 @@ export enum ActionType {
   MouseDownVVertex = 'MouseDownVVertex',
   MouseMove = 'MouseMove',
   MouseUp = 'MouseUp',
+  UpdateFrame = 'UpdateFrame',
 }
 
 export function previousStep(): Action {
@@ -41,4 +42,11 @@ export function mouseMove(pos: Vec): Action {
 
 export function mouseUp(): Action {
   return { type: ActionType.MouseUp };
+}
+
+export function updateFrame(
+  frame: number,
+  rafHandle: undefined | number
+): Action {
+  return { type: ActionType.UpdateFrame, payload: { frame, rafHandle } };
 }

@@ -1,13 +1,191 @@
-body {
+@font-face {
+  font-family: 'Merriweather';
+  src: url('./assets/Merriweather-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./assets/OpenSans-Regular.ttf');
+}
+
+:root {
+  --text: #24202d;
+  --bg: #f7f4e3;
+  --header-font: 'Merriweather', serif;
+  --body-font: 'Open Sans', sans-serif;
+}
+
+html {
+  font-size: 16px;
+  font-family: var(--body-font);
+  color: var(--text);
+  background-color: var(--bg);
+}
+
+/* Resets */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: var(--body-font);
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: unset;
+}
+
+/* Main layout */
+header {
+  width: 100%;
+  height: 45px;
+  box-sizing: border-box;
+}
+
+header nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header nav #icon {
+  height: 28px;
+}
+
+footer {
+  width: 100%;
+  height: 45px;
+  box-sizing: border-box;
+}
+
+footer nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+main {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+/* Typography */
+h1,
+h2 {
+  font-family: var(--header-font);
+}
+
+h1 {
+  margin: 0.5em 0;
+  font-size: 1.5em;
+}
+
+h2 {
+  margin: 0.7em 0;
+  font-size: 1.3em;
+}
+
+p {
+  margin: 1em 0;
+  line-height: 1.5;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--header-font);
+  font-style: italic;
+  padding: 0 0.1em;
+}
+
+/* Graphics */
+#canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Adaptive styles */
+
+/* Laptops */
+@media screen and (min-width: 1024px) {
+  main {
+    display: grid;
+    grid-template-columns: auto 512px 512px auto;
+  }
+
+  #prose {
+    grid-column: 2 / 3;
+  }
+
+  #illustration {
+    grid-column: 3 / 4;
+  }
+
+  header,
+  footer {
+    display: grid;
+    grid-template-columns: auto 1024px auto;
+  }
+
+  header nav,
+  footer nav {
+    grid-column: 2 / 3;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  main {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  #prose {
+    grid-row: 1 / 2;
+    margin: 0 2em;
+  }
+
+  #illustration {
+    grid-row: 2 / 3;
+    margin: 0 2em;
+  }
+
+  header nav,
+  footer nav {
+    margin: 0 2em;
+  }
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+  main {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  #prose {
+    grid-row: 1 / 2;
+    margin: 0 2em;
+  }
+
+  #illustration {
+    grid-row: 2 / 3;
+    margin: 0 2em;
+  }
+
+  header nav,
+  footer nav {
+    margin: 0 2em;
+  }
 }

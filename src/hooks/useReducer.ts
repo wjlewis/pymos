@@ -1,4 +1,5 @@
 import React from 'react';
+import { Middleware } from '../state';
 
 export function useReducer<St, A>(
   reducer: React.Reducer<St, A>,
@@ -14,8 +15,4 @@ export function useReducer<St, A>(
   });
 
   return [state, dispatch];
-}
-
-export interface Middleware<St, A> {
-  (state: St, dispatch: React.Dispatch<A>): React.Dispatch<A>;
 }

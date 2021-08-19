@@ -1,2 +1,3 @@
-export * from './useCurrentDevice';
 export * from './useReducer';
+export * from './useDims';
+export * from './useMouse';

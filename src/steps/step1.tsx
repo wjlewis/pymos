@@ -44,7 +44,7 @@ const Section: React.FC = () => {
 };
 
 const Graphics: React.FC = () => {
-  return <circle cx="0" cy="0" r="20" fill="red" />;
+  return null;
 };
 
 const step = {

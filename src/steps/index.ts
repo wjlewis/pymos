@@ -8,6 +8,8 @@ import step7 from './step7';
 import step8 from './step8';
 import step9 from './step9';
 
+export * as Locations from './locations';
+
 export const steps: Step[] = [
   step1,
   step2,

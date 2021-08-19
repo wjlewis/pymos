@@ -13,6 +13,7 @@
   --bg: #f7f4e3;
   --header-font: 'Merriweather', serif;
   --body-font: 'Open Sans', sans-serif;
+  --debug: #864ef1;
 }
 
 html {
@@ -49,7 +50,7 @@ button:disabled {
 /* Main layout */
 header {
   width: 100%;
-  height: 45px;
+  height: 60px;
   box-sizing: border-box;
 }
 
@@ -61,7 +62,7 @@ header nav {
 }
 
 header nav #icon {
-  height: 28px;
+  height: 32px;
 }
 
 footer {
@@ -80,6 +81,11 @@ footer nav {
 main {
   width: 100%;
   flex: 1 1 auto;
+  overflow: hidden;
+}
+
+#prose {
+  overflow-y: auto;
 }
 
 /* Typography */
@@ -113,6 +119,19 @@ code {
 #canvas {
   width: 100%;
   height: 100%;
+}
+
+.control-point {
+  cursor: move;
+}
+
+.debug-point {
+  fill: var(--debug);
+}
+
+.debug-polygon {
+  fill: var(--debug);
+  fill-opacity: 0.2;
 }
 
 /* Adaptive styles */

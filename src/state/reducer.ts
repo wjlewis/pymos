@@ -24,6 +24,10 @@ export function reducer(state: State, action: Action): State {
       return reduceMouseMove(state, action.payload);
     case ActionType.MouseUp:
       return reduceMouseUp(state);
+    case ActionType.MakeThin:
+      return reduceMakeThin(state);
+    case ActionType.MakeEven:
+      return reduceMakeEven(state);
     default:
       return state;
   }
@@ -116,4 +120,21 @@ function moveVVertex(state: State, mousePos: Vec): State {
 
 function reduceMouseUp(state: State): State {
   return { ...state, dragSubject: DragSubject.None() };
+}
+
+function reduceMakeThin(state: State): State {
+  const r = new Vec(-80, 0);
+  const h = new Vec(80, r.y);
+  const v = new Vec(r.x, -VERTEX_PADDING);
+
+  return { ...state, tri: { ...state.tri, r, h, v } };
+}
+
+function reduceMakeEven(state: State): State {
+  const r = new Vec(0, 20);
+  // "roughly" even
+  const h = new Vec(90, r.y);
+  const v = new Vec(r.x, -80);
+
+  return { ...state, tri: { ...state.tri, r, h, v } };
 }

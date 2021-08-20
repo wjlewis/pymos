@@ -31,8 +31,8 @@ const Illustration: React.FC = () => {
         ref={ref as any as React.RefObject<SVGSVGElement>}
       >
         <g transform={`${translation}`}>
-          {/*<DebugPoints />*/}
           <Graphics />
+          {/*<DebugPoints />*/}
         </g>
       </svg>
     </article>

@@ -15,6 +15,7 @@
   --body-font: 'Open Sans', sans-serif;
   --blue: #4971dd;
   --yellow: #edbd53;
+  --red: #ed5040;
   --green: #2dba66;
   --gray: #a8b6c3;
   --debug: #864ef1;
@@ -154,6 +155,22 @@ code {
   font-family: var(--header-font);
   font-size: 1.5em;
   fill: var(--gray);
+}
+
+.main-square {
+  stroke: var(--red);
+  stroke-width: 3;
+  fill: var(--red);
+}
+
+.main-square-label {
+  font-family: var(--header-font);
+  font-size: 1.5em;
+  fill: var(--bg);
+}
+
+.main-square-label-exponent {
+  font-size: 0.8em;
 }
 
 .debug-point {

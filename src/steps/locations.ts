@@ -1,96 +1,141 @@
 import { Vec, memo } from '../tools';
 import { RightTriangle } from '../state';
 
-interface VecSelector {
-  (tri: RightTriangle): Vec;
+interface Selector<A> {
+  (tri: RightTriangle): A;
 }
 
-export const vr: VecSelector = memo(tri => tri.r.minus(tri.v));
+export const vr: Selector<Vec> = memo(tri => tri.r.minus(tri.v));
 
-export const hr: VecSelector = memo(tri => tri.r.minus(tri.h));
+export const hr: Selector<Vec> = memo(tri => tri.r.minus(tri.h));
 
-export const vh: VecSelector = memo(tri => tri.h.minus(tri.v));
+export const vh: Selector<Vec> = memo(tri => tri.h.minus(tri.v));
 
-export const rv: VecSelector = memo(tri => vr(tri).times(-1));
+export const rv: Selector<Vec> = memo(tri => vr(tri).times(-1));
 
-export const rh: VecSelector = memo(tri => hr(tri).times(-1));
+export const rh: Selector<Vec> = memo(tri => hr(tri).times(-1));
 
-export const aPerpNorm: VecSelector = memo(tri => {
+export const aPerpNorm: Selector<Vec> = memo(tri => {
   return hr(tri).norm();
 });
 
-export const aPerp: VecSelector = memo(tri => {
+export const aPerp: Selector<Vec> = memo(tri => {
   const length = vr(tri).length();
   return aPerpNorm(tri).times(length);
 });
 
-export const a0: VecSelector = memo(tri => {
+export const a0: Selector<Vec> = memo(tri => {
   return tri.v.plus(aPerp(tri));
 });
 
-export const a1: VecSelector = memo(tri => {
+export const a1: Selector<Vec> = memo(tri => {
   return tri.r.plus(aPerp(tri));
 });
 
-export const bPerpNorm: VecSelector = memo(tri => {
+export const aSquare: Selector<Vec[]> = memo(tri => [
+  tri.v,
+  a0(tri),
+  a1(tri),
+  tri.r,
+  tri.v,
+]);
+
+export const aSquareLabel: Selector<Vec> = memo(tri => {
+  const half = a0(tri)
+    .minus(tri.r)
+    .times(1 / 2);
+  return tri.r.plus(half);
+});
+
+export const bPerpNorm: Selector<Vec> = memo(tri => {
   return vr(tri).norm();
 });
 
-export const bPerp: VecSelector = memo(tri => {
+export const bPerp: Selector<Vec> = memo(tri => {
   const length = hr(tri).length();
   return bPerpNorm(tri).times(length);
 });
 
-export const b0: VecSelector = memo(tri => {
+export const b0: Selector<Vec> = memo(tri => {
   return tri.r.plus(bPerp(tri));
 });
 
-export const b1: VecSelector = memo(tri => {
+export const b1: Selector<Vec> = memo(tri => {
   return tri.h.plus(bPerp(tri));
 });
 
-export const cPerpNorm: VecSelector = memo(tri => {
+export const bSquare: Selector<Vec[]> = memo(tri => [
+  tri.r,
+  b0(tri),
+  b1(tri),
+  tri.h,
+  tri.r,
+]);
+
+export const bSquareLabel: Selector<Vec> = memo(tri => {
+  const half = b0(tri)
+    .minus(tri.h)
+    .times(1 / 2);
+  return tri.h.plus(half);
+});
+
+export const cPerpNorm: Selector<Vec> = memo(tri => {
   const vh1 = vh(tri);
   const vr1 = vr(tri);
   const proj = vr1.proj(vh1);
   return proj.minus(vr1).norm();
 });
 
-export const cPerp: VecSelector = memo(tri => {
+export const cPerp: Selector<Vec> = memo(tri => {
   const length = vh(tri).length();
   return cPerpNorm(tri).times(length);
 });
 
-export const c0: VecSelector = memo(tri => {
+export const c0: Selector<Vec> = memo(tri => {
   return tri.h.plus(cPerp(tri));
 });
 
-export const c1: VecSelector = memo(tri => {
+export const c1: Selector<Vec> = memo(tri => {
   return tri.v.plus(cPerp(tri));
 });
 
-export const abOut: VecSelector = memo(tri => {
+export const cSquare: Selector<Vec[]> = memo(tri => [
+  tri.h,
+  c0(tri),
+  c1(tri),
+  tri.v,
+  tri.h,
+]);
+
+export const cSquareLabel: Selector<Vec> = memo(tri => {
+  const half = c0(tri)
+    .minus(tri.v)
+    .times(1 / 2);
+  return tri.v.plus(half);
+});
+
+export const abOut: Selector<Vec> = memo(tri => {
   return b0(tri).plus(aPerp(tri));
 });
 
-export const abIn: VecSelector = memo(tri => {
+export const abIn: Selector<Vec> = memo(tri => {
   return tri.h.plus(rv(tri));
 });
 
-export const cAuxV: VecSelector = memo(tri => {
+export const cAuxV: Selector<Vec> = memo(tri => {
   const hrLength = hr(tri).length();
   const vert = rv(tri).norm().times(hrLength);
   return tri.v.plus(vert);
 });
 
-export const cAuxDiag: VecSelector = memo(tri => {
+export const cAuxDiag: Selector<Vec> = memo(tri => {
   const rh1 = rh(tri);
   const length = rh1.length() + vr(tri).length();
   const out = rh1.norm().times(length);
   return cAuxV(tri).plus(out);
 });
 
-export const cAuxH: VecSelector = memo(tri => {
+export const cAuxH: Selector<Vec> = memo(tri => {
   const vrLength = vr(tri).length();
   const horiz = rh(tri).norm().times(vrLength);
   return tri.h.plus(horiz);
@@ -98,45 +143,45 @@ export const cAuxH: VecSelector = memo(tri => {
 
 const SIDE_MEASURE_OFFSET = 30;
 
-export const aMeasurementPerp: VecSelector = memo(tri =>
+export const aMeasurementPerp: Selector<Vec> = memo(tri =>
   aPerpNorm(tri).times(SIDE_MEASURE_OFFSET)
 );
 
-export const aMeasurementStart: VecSelector = memo(tri =>
+export const aMeasurementStart: Selector<Vec> = memo(tri =>
   tri.v.plus(aMeasurementPerp(tri))
 );
 
-export const aMeasurementEnd: VecSelector = memo(tri =>
+export const aMeasurementEnd: Selector<Vec> = memo(tri =>
   tri.r.plus(aMeasurementPerp(tri))
 );
 
-export const bMeasurementPerp: VecSelector = memo(tri =>
+export const bMeasurementPerp: Selector<Vec> = memo(tri =>
   bPerpNorm(tri).times(SIDE_MEASURE_OFFSET)
 );
 
-export const bMeasurementStart: VecSelector = memo(tri =>
+export const bMeasurementStart: Selector<Vec> = memo(tri =>
   tri.r.plus(bMeasurementPerp(tri))
 );
 
-export const bMeasurementEnd: VecSelector = memo(tri =>
+export const bMeasurementEnd: Selector<Vec> = memo(tri =>
   tri.h.plus(bMeasurementPerp(tri))
 );
 
-export const cMeasurementPerp: VecSelector = memo(tri =>
+export const cMeasurementPerp: Selector<Vec> = memo(tri =>
   cPerpNorm(tri).times(SIDE_MEASURE_OFFSET)
 );
 
-export const cMeasurementStart: VecSelector = memo(tri =>
+export const cMeasurementStart: Selector<Vec> = memo(tri =>
   tri.h.plus(cMeasurementPerp(tri))
 );
 
-export const cMeasurementEnd: VecSelector = memo(tri =>
+export const cMeasurementEnd: Selector<Vec> = memo(tri =>
   tri.v.plus(cMeasurementPerp(tri))
 );
 
 const SIDE_LABEL_OFFSET = 20;
 
-export const aMeasurementLabel: VecSelector = memo(tri => {
+export const aMeasurementLabel: Selector<Vec> = memo(tri => {
   const start = aMeasurementStart(tri);
   const end = aMeasurementEnd(tri);
   const half = end.minus(start).times(1 / 2);
@@ -144,7 +189,7 @@ export const aMeasurementLabel: VecSelector = memo(tri => {
   return start.plus(half).plus(out);
 });
 
-export const bMeasurementLabel: VecSelector = memo(tri => {
+export const bMeasurementLabel: Selector<Vec> = memo(tri => {
   const start = bMeasurementStart(tri);
   const end = bMeasurementEnd(tri);
   const half = end.minus(start).times(1 / 2);
@@ -152,7 +197,7 @@ export const bMeasurementLabel: VecSelector = memo(tri => {
   return start.plus(half).plus(out);
 });
 
-export const cMeasurementLabel: VecSelector = memo(tri => {
+export const cMeasurementLabel: Selector<Vec> = memo(tri => {
   const start = cMeasurementStart(tri);
   const end = cMeasurementEnd(tri);
   const half = end.minus(start).times(1 / 2);

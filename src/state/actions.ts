@@ -14,6 +14,8 @@ export enum ActionType {
   MouseMove = 'MouseMove',
   MouseUp = 'MouseUp',
   UpdateFrame = 'UpdateFrame',
+  MakeThin = 'MakeThin',
+  MakeEven = 'MakeEven',
 }
 
 export function previousStep(): Action {
@@ -49,4 +51,12 @@ export function updateFrame(
   rafHandle: undefined | number
 ): Action {
   return { type: ActionType.UpdateFrame, payload: { frame, rafHandle } };
+}
+
+export function makeThin(): Action {
+  return { type: ActionType.MakeThin };
+}
+
+export function makeEven(): Action {
+  return { type: ActionType.MakeEven };
 }

@@ -1,7 +1,7 @@
 import { Vec } from './Vec';
 
 export class Anim<A> {
-  constructor(public fn: AnimBehavior<A>, private duration: number) {}
+  constructor(public fn: AnimBehavior<A>, public duration: number) {}
 
   then(after: Anim<A>): Anim<A> {
     return new Anim(t => {
@@ -29,9 +29,7 @@ export class Anim<A> {
     }
   }
 
-  static Fork<A>(anims: {
-    [key: string]: Anim<any>;
-  }): Anim<{ [key: string]: any }> {
+  static Fork<A>(anims: { [key: string]: Anim<any> }): Anim<A> {
     const durations = Object.values(anims).map(({ duration }) => duration);
     const duration = Math.max(...durations, 0);
 
@@ -118,10 +116,14 @@ function animMeasurement(
   crossLength: number,
   duration: number
 ): Anim<string> {
-  const line = end.minus(start);
-  const crossDuration = 0.15 * duration;
-  const perp = line.perp().norm().times(crossLength);
-  const lineDuration = 0.7 * duration;
+  const crossDuration = 0.2 * duration;
+  const lineDuration = 0.6 * duration;
+
+  const mainLine = end.minus(start);
+  const perp = mainLine
+    .perp()
+    .norm()
+    .times(crossLength / 2);
   const crossStart1 = start.plus(perp);
   const crossStart2 = start.minus(perp);
   const crossEnd1 = end.plus(perp);
@@ -134,21 +136,27 @@ function animMeasurement(
 
   return new Anim(t => {
     if (t < crossDuration) {
+      // First cross
       const tNorm = t / crossDuration;
       const crossPos = crossStart1.plus(fullCross.times(tNorm));
       return `M ${crossStart1.x} ${crossStart1.y} L ${crossPos.x} ${crossPos.y}`;
     } else if (crossDuration <= t && t < crossDuration + lineDuration) {
+      // Main line
       const tNorm = (t - crossDuration) / lineDuration;
-      const linePos = start.plus(line.times(tNorm * tNorm * (3 - 2 * tNorm)));
+      const linePos = start.plus(
+        mainLine.times(tNorm * tNorm * (3 - 2 * tNorm))
+      );
       return `${crossStartPath} M ${start.x} ${start.y} L ${linePos.x} ${linePos.y}`;
     } else if (
       crossDuration + lineDuration <= t &&
       t < crossDuration + lineDuration + crossDuration
     ) {
+      // Second cross
       const tNorm = (t - crossDuration - lineDuration) / crossDuration;
       const crossPos = crossEnd1.plus(fullCross.times(tNorm));
       return `${crossStartPath} ${linePath} M ${crossEnd1.x} ${crossEnd1.y} L ${crossPos.x} ${crossPos.y}`;
     } else {
+      // Full path
       return `${crossStartPath} ${linePath} ${crossEndPath}`;
     }
   }, duration);

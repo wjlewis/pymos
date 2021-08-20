@@ -2,8 +2,7 @@ import React from 'react';
 import { StateContext, Actions as A, Selectors as S } from './state';
 import { useDims, useMouse } from './hooks';
 import { Vec } from './tools';
-import ControlPoints from './ControlPoints';
-import MainTriangle from './MainTriangle';
+// eslint-disable-next-line
 import DebugPoints from './DebugPoints';
 
 const Illustration: React.FC = () => {
@@ -32,10 +31,7 @@ const Illustration: React.FC = () => {
         ref={ref as any as React.RefObject<SVGSVGElement>}
       >
         <g transform={`${translation}`}>
-          <DebugPoints />
-
-          <MainTriangle />
-          <ControlPoints />
+          {/*<DebugPoints />*/}
           <Graphics />
         </g>
       </svg>

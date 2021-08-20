@@ -1,16 +1,20 @@
 import React from 'react';
 import { StateContext } from './state';
 
-const MainTriangle: React.FC = () => {
+export interface MainTriangleProps {
+  d?: string;
+  opacity?: number;
+}
+
+const MainTriangle: React.FC<MainTriangleProps> = props => {
   const { state } = React.useContext(StateContext);
   const { r, h, v } = state.tri;
 
-  return (
-    <path
-      className="main-triangle"
-      d={`M ${r.x} ${r.y} L ${h.x} ${h.y} L ${v.x} ${v.y} Z`}
-    />
-  );
+  const fullPath = `M ${r.x} ${r.y} L ${h.x} ${h.y} L ${v.x} ${v.y} Z`;
+
+  const { d = fullPath, opacity = 1 } = props;
+
+  return <path className="main-triangle" d={d} fillOpacity={opacity} />;
 };
 
 export default MainTriangle;

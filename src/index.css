@@ -16,6 +16,7 @@
   --blue: #4971dd;
   --yellow: #edbd53;
   --green: #2dba66;
+  --gray: #a8b6c3;
   --debug: #864ef1;
 }
 
@@ -134,6 +135,25 @@ code {
 .control-point {
   cursor: move;
   fill: var(--blue);
+}
+
+.dummy-control-point {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--blue);
+}
+
+.measurement-path {
+  stroke-width: 2;
+  stroke: var(--gray);
+}
+
+.measurement-label {
+  font-family: var(--header-font);
+  font-size: 1.5em;
+  fill: var(--gray);
 }
 
 .debug-point {

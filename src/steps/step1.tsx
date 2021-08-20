@@ -1,5 +1,11 @@
 import React from 'react';
+import * as L from './locations';
+import { StateContext, RightTriangle } from '../state';
 import { useAnimationFrame } from '../hooks';
+import { Anim, Extras as AnimExtras } from '../tools';
+import ControlPoints from '../ControlPoints';
+import MainTriangle from '../MainTriangle';
+import Measurement from '../Measurement';
 
 const Section: React.FC = () => {
   return (
@@ -37,18 +43,135 @@ const Section: React.FC = () => {
 
       <p>
         We'll use the right triangle shown here to illustrate each step. Each of
-        the triangle's vertices () can be dragged at any time; this will allow
-        us to observe each step with a variety of different triangles.
+        the triangle's vertices (<span className="dummy-control-point"></span>)
+        can be dragged at any time; this will allow us to observe each step with
+        a variety of different triangles.
       </p>
     </section>
   );
 };
 
 const Graphics: React.FC = () => {
-  const frame = useAnimationFrame();
+  const { state } = React.useContext(StateContext);
+  const [frame] = useAnimationFrame();
 
-  return null;
+  const controlPoints = React.useMemo(
+    () => animControlPoints(state.tri),
+    [state.tri]
+  );
+  const triangle = React.useMemo(() => animTriangle(state.tri), [state.tri]);
+  const measurements = React.useMemo(
+    () => animMeasurements(state.tri),
+    [state.tri]
+  );
+
+  const { rOpacity, hOpacity, vOpacity } = controlPoints.fn(frame);
+  const { d, opacity } = triangle.fn(frame);
+  const { dA, aOpacity, dB, bOpacity, dC, cOpacity } = measurements.fn(frame);
+
+  const aLabelPos = L.aMeasurementLabel(state.tri);
+  const bLabelPos = L.bMeasurementLabel(state.tri);
+  const cLabelPos = L.cMeasurementLabel(state.tri);
+
+  return (
+    <g>
+      <Measurement
+        d={dA}
+        label="a"
+        labelPos={aLabelPos}
+        labelOpacity={aOpacity}
+      />
+      <Measurement
+        d={dB}
+        label="b"
+        labelPos={bLabelPos}
+        labelOpacity={bOpacity}
+      />
+      <Measurement
+        d={dC}
+        label="c"
+        labelPos={cLabelPos}
+        labelOpacity={cOpacity}
+      />
+
+      <MainTriangle d={d} opacity={opacity} />
+      <ControlPoints
+        rOpacity={rOpacity}
+        hOpacity={hOpacity}
+        vOpacity={vOpacity}
+      />
+    </g>
+  );
 };
+
+function animControlPoints(tri: RightTriangle): Anim<ControlPointsState> {
+  return Anim.Fork({
+    vOpacity: Anim.Ease(0, 1, 400),
+    rOpacity: Anim.Wait(0, 600).then(Anim.Ease(0, 1, 400)),
+    hOpacity: Anim.Wait(0, 1200).then(Anim.Ease(0, 1, 400)),
+  });
+}
+
+interface ControlPointsState {
+  rOpacity: number;
+  hOpacity: number;
+  vOpacity: number;
+}
+
+function animTriangle(tri: RightTriangle): Anim<TriangleState> {
+  const { r, h, v } = tri;
+
+  return Anim.Fork({
+    d: AnimExtras.SvgPath([v, r, h, v], 1800),
+    opacity: Anim.Wait(0, 2400).then(Anim.Ease(0, 1, 500)),
+  });
+}
+
+interface TriangleState {
+  d: string;
+  opacity: number;
+}
+
+function animMeasurements(tri: RightTriangle): Anim<MeasurementsState> {
+  return Anim.Fork({
+    dA: Anim.Wait('', 3000).then(
+      AnimExtras.Measurement(
+        L.aMeasurementStart(tri),
+        L.aMeasurementEnd(tri),
+        20,
+        1600
+      )
+    ),
+    aOpacity: Anim.Wait(0, 4600).then(Anim.Ease(0, 1, 800)),
+    dB: Anim.Wait('', 5000).then(
+      AnimExtras.Measurement(
+        L.bMeasurementStart(tri),
+        L.bMeasurementEnd(tri),
+        20,
+        1600
+      )
+    ),
+    bOpacity: Anim.Wait(0, 6600).then(Anim.Ease(0, 1, 800)),
+    dC: Anim.Wait('', 7000).then(
+      AnimExtras.Measurement(
+        L.cMeasurementStart(tri),
+        L.cMeasurementEnd(tri),
+        20,
+        1600
+      )
+    ),
+    cOpacity: Anim.Wait(0, 8600).then(Anim.Ease(0, 1, 800)),
+  });
+}
+
+interface MeasurementsState {
+  dA: string;
+  aOpacity: number;
+  dB: string;
+  bOpacity: number;
+  dC: string;
+  cOpacity: number;
+}
 
 const step = {
   section: Section,

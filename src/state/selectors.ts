@@ -20,3 +20,7 @@ export function currentSection(state: State): React.FC {
 export function currentGraphics(state: State): React.FC {
   return steps[state.stepIndex].graphics;
 }
+
+export function isTriOutOfBounds(state: State): boolean {
+  return state.ui.triOutOfBounds;
+}

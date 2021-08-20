@@ -18,7 +18,6 @@ export function useAnimationFrame(): [Frame, () => void] {
     rafHandle.current = window.requestAnimationFrame(step);
 
     return () => {
-      console.log('cancelling...');
       window.cancelAnimationFrame(rafHandle.current as number);
     };
   }, [step]);

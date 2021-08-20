@@ -1,4 +1,4 @@
-import { State } from './state';
+import { State, Dims, initTri } from './state';
 import { Action, ActionType } from './actions';
 import { steps } from '../steps';
 import { DragSubject } from './DragSubject';
@@ -28,6 +28,10 @@ export function reducer(state: State, action: Action): State {
       return reduceMakeThin(state);
     case ActionType.MakeEven:
       return reduceMakeEven(state);
+    case ActionType.UpdateDims:
+      return reduceUpdateDims(state, action.payload);
+    case ActionType.ResetMainTriangle:
+      return reduceResetMainTriangle(state);
     default:
       return state;
   }
@@ -119,7 +123,12 @@ function moveVVertex(state: State, mousePos: Vec): State {
 }
 
 function reduceMouseUp(state: State): State {
-  return { ...state, dragSubject: DragSubject.None() };
+  const triOutOfBounds = isTriOutOfBounds(state, state.ui.dims);
+  return {
+    ...state,
+    ui: { ...state.ui, triOutOfBounds },
+    dragSubject: DragSubject.None(),
+  };
 }
 
 function reduceMakeThin(state: State): State {
@@ -137,4 +146,22 @@ function reduceMakeEven(state: State): State {
   const v = new Vec(r.x, -80);
 
   return { ...state, tri: { ...state.tri, r, h, v } };
+}
+
+function reduceUpdateDims(state: State, dims: Dims): State {
+  const triOutOfBounds = isTriOutOfBounds(state, dims);
+  return { ...state, ui: { ...state.ui, dims, triOutOfBounds } };
+}
+
+function reduceResetMainTriangle(state: State): State {
+  return { ...state, tri: initTri, ui: { ...state.ui, triOutOfBounds: false } };
+}
+
+function isTriOutOfBounds(state: State, dims: Dims): boolean {
+  const { r } = state.tri;
+  const { width, height } = dims;
+
+  const outX = Math.abs(r.x) > width / 2;
+  const outY = Math.abs(r.y) > height / 2;
+  return outX || outY;
 }

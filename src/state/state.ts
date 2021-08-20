@@ -11,24 +11,22 @@ export interface State {
 }
 
 export interface UIState {
-  device: Device;
+  dims: Dims;
+  triOutOfBounds: boolean;
 }
 
-export enum Device {
-  Laptop = 'Laptop',
-  Tablet = 'Tablet',
-  Phone = 'Phone',
-}
+export const initTri: RightTriangle = {
+  r: new Vec(-70, 0),
+  h: new Vec(70, 0),
+  v: new Vec(-70, -80),
+};
 
 export const initState: State = {
   ui: {
-    device: Device.Laptop,
+    dims: { width: 0, height: 0 },
+    triOutOfBounds: false,
   },
-  tri: {
-    r: new Vec(-70, 0),
-    h: new Vec(70, 0),
-    v: new Vec(-70, -80),
-  },
+  tri: initTri,
   dragSubject: DragSubject.None(),
   stepIndex: 0,
   frame: 0,
@@ -43,4 +41,9 @@ export interface RightTriangle {
   r: Vec;
   h: Vec;
   v: Vec;
+}
+
+export interface Dims {
+  width: number;
+  height: number;
 }

@@ -42,27 +42,27 @@ const Graphics: React.FC = () => {
 
   return (
     <g>
-      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+      <Polygon className="main-square dim" pts={L.aSquare(state.tri)} />
+      <Polygon className="main-square dim" pts={L.bSquare(state.tri)} />
       <Polygon className="main-square" pts={L.cSquare(state.tri)} />
 
       <MainTriangle opacity={triOpacity} strokeOpacity={triOpacity} />
       <PosedPolygon
         className="main-triangle-copy"
         pts={triPts}
-        pose={L.triCopy1Pose(state.tri)}
+        pose={L.triCopyC1Pose(state.tri)}
         opacity={triOpacity}
       />
       <PosedPolygon
         className="main-triangle-copy"
         pts={triPts}
-        pose={L.triCopy2Pose(state.tri)}
+        pose={L.triCopyC2Pose(state.tri)}
         opacity={triOpacity}
       />
       <PosedPolygon
         className="main-triangle-copy"
         pts={triPts}
-        pose={L.triCopy3Pose(state.tri)}
+        pose={L.triCopyC3Pose(state.tri)}
         opacity={triOpacity}
       />
 

@@ -301,18 +301,32 @@ export const triCopyPts: Selector<Vec[]> = memo(tri => [
   rv(tri),
 ]);
 
-export const triCopy1Pose: Selector<Pose> = memo(tri => {
+export const triCopyC1Pose: Selector<Pose> = memo(tri => {
   const angle = isRightHanded(tri) ? -Math.PI / 2 : Math.PI / 2;
   return new Pose(cAuxV(tri), angle);
 });
 
-export const triCopy2Pose: Selector<Pose> = memo(tri => {
-  return new Pose(cAuxDiag(tri), Math.PI);
-});
+export const triCopyC2Pose: Selector<Pose> = memo(
+  tri => new Pose(cAuxDiag(tri), Math.PI)
+);
 
-export const triCopy3Pose: Selector<Pose> = memo(tri => {
+export const triCopyC3Pose: Selector<Pose> = memo(tri => {
   const angle = isRightHanded(tri) ? (-3 * Math.PI) / 2 : (3 * Math.PI) / 2;
   return new Pose(cAuxH(tri), angle);
+});
+
+export const triCopyAB1Pose: Selector<Pose> = memo(
+  tri => new Pose(abIn(tri), Math.PI)
+);
+
+export const triCopyAB2Pose: Selector<Pose> = memo(tri => {
+  const angle = isRightHanded(tri) ? -Math.PI / 2 : Math.PI / 2;
+  return new Pose(a1(tri), angle);
+});
+
+export const triCopyAB3Pose: Selector<Pose> = memo(tri => {
+  const angle = isRightHanded(tri) ? Math.PI / 2 : -Math.PI / 2;
+  return new Pose(b0(tri), angle);
 });
 
 export const cMeasurementVOut: Selector<Vec> = memo(tri =>

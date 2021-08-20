@@ -63,8 +63,8 @@ const Graphics: React.FC = () => {
 
   return (
     <g>
-      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+      <Polygon className="main-square dim" pts={L.aSquare(state.tri)} />
+      <Polygon className="main-square dim" pts={L.bSquare(state.tri)} />
       <Polygon className="main-square" pts={L.cSquare(state.tri)} />
       <MainTriangle />
 
@@ -120,9 +120,9 @@ const Graphics: React.FC = () => {
 
 function animTriCopies(tri: RightTriangle): Anim<TriCopiesState> {
   const initPose = L.initTriPose(tri);
-  const copy1Pose = L.triCopy1Pose(tri);
-  const copy2Pose = L.triCopy2Pose(tri);
-  const copy3Pose = L.triCopy3Pose(tri);
+  const copy1Pose = L.triCopyC1Pose(tri);
+  const copy2Pose = L.triCopyC2Pose(tri);
+  const copy3Pose = L.triCopyC3Pose(tri);
 
   return Anim.Fork({
     tri1Pose: Anim.Ease(initPose, copy1Pose, 1600),

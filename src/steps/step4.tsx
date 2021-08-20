@@ -46,7 +46,7 @@ const Graphics: React.FC = () => {
     <g>
       <Polygon className="main-square" pts={L.aSquare(state.tri)} />
       <Polygon className="main-square" pts={L.bSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.cSquare(state.tri)} />
+      <Polygon className="main-square dim" pts={L.cSquare(state.tri)} />
       <MainTriangle />
       <Polygon className="aux-square" pts={L.abAuxSquare(state.tri)} />
 

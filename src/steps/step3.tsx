@@ -3,6 +3,8 @@ import * as L from './locations';
 import { StateContext, RightTriangle } from '../state';
 import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras } from '../tools';
+import Canvas from '../Canvas';
+import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
@@ -29,25 +31,31 @@ const Section: React.FC = () => {
 
 const Graphics: React.FC = () => {
   const { state } = React.useContext(StateContext);
-  const [frame] = useAnimationFrame();
 
   const auxSquares = React.useMemo(
     () => animAuxSquares(state.tri),
     [state.tri]
   );
 
+  const animControls = useAnimationFrame(auxSquares.duration);
+  const { frame } = animControls;
+
   const { abPath, cPath } = auxSquares.fn(frame);
 
   return (
-    <g>
-      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.cSquare(state.tri)} />
-      <MainTriangle />
-      <Polygon className="aux-square" d={abPath} />
-      <Polygon className="aux-square" d={cPath} />
-      <ControlPoints />
-    </g>
+    <>
+      <Canvas>
+        <Polygon className="main-square" pts={L.aSquare(state.tri)} />
+        <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+        <Polygon className="main-square" pts={L.cSquare(state.tri)} />
+        <MainTriangle />
+        <Polygon className="aux-square" d={abPath} />
+        <Polygon className="aux-square" d={cPath} />
+        <ControlPoints />
+      </Canvas>
+
+      <Controls {...animControls} />
+    </>
   );
 };
 

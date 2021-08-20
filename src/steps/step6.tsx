@@ -3,6 +3,8 @@ import * as L from './locations';
 import { StateContext, RightTriangle } from '../state';
 import { useAnimationFrame } from '../hooks';
 import { Anim } from '../tools';
+import Canvas from '../Canvas';
+import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
@@ -33,42 +35,48 @@ const Section: React.FC = () => {
 
 const Graphics: React.FC = () => {
   const { state } = React.useContext(StateContext);
-  const [frame] = useAnimationFrame();
 
   const opacity = React.useMemo(() => animOpacity(state.tri), [state.tri]);
+
+  const animControls = useAnimationFrame(opacity.duration);
+  const { frame } = animControls;
 
   const { triOpacity } = opacity.fn(frame);
   const triPts = L.triCopyPts(state.tri);
 
   return (
-    <g>
-      <Polygon className="main-square dim" pts={L.aSquare(state.tri)} />
-      <Polygon className="main-square dim" pts={L.bSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.cSquare(state.tri)} />
+    <>
+      <Canvas>
+        <Polygon className="main-square dim" pts={L.aSquare(state.tri)} />
+        <Polygon className="main-square dim" pts={L.bSquare(state.tri)} />
+        <Polygon className="main-square" pts={L.cSquare(state.tri)} />
 
-      <MainTriangle opacity={triOpacity} strokeOpacity={triOpacity} />
-      <PosedPolygon
-        className="main-triangle-copy"
-        pts={triPts}
-        pose={L.triCopyC1Pose(state.tri)}
-        opacity={triOpacity}
-      />
-      <PosedPolygon
-        className="main-triangle-copy"
-        pts={triPts}
-        pose={L.triCopyC2Pose(state.tri)}
-        opacity={triOpacity}
-      />
-      <PosedPolygon
-        className="main-triangle-copy"
-        pts={triPts}
-        pose={L.triCopyC3Pose(state.tri)}
-        opacity={triOpacity}
-      />
+        <MainTriangle opacity={triOpacity} strokeOpacity={triOpacity} />
+        <PosedPolygon
+          className="main-triangle-copy"
+          pts={triPts}
+          pose={L.triCopyC1Pose(state.tri)}
+          opacity={triOpacity}
+        />
+        <PosedPolygon
+          className="main-triangle-copy"
+          pts={triPts}
+          pose={L.triCopyC2Pose(state.tri)}
+          opacity={triOpacity}
+        />
+        <PosedPolygon
+          className="main-triangle-copy"
+          pts={triPts}
+          pose={L.triCopyC3Pose(state.tri)}
+          opacity={triOpacity}
+        />
 
-      <Polygon className="aux-square" pts={L.cAuxSquare(state.tri)} />
-      <ControlPoints />
-    </g>
+        <Polygon className="aux-square" pts={L.cAuxSquare(state.tri)} />
+        <ControlPoints />
+      </Canvas>
+
+      <Controls {...animControls} />
+    </>
   );
 };
 

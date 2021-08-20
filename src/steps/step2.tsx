@@ -3,6 +3,8 @@ import * as L from './locations';
 import { StateContext, RightTriangle, Actions as A } from '../state';
 import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras, Vec } from '../tools';
+import Canvas from '../Canvas';
+import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
@@ -59,10 +61,13 @@ const Section: React.FC = () => {
 
 const Graphics: React.FC = () => {
   const { state } = React.useContext(StateContext);
-  const [frame] = useAnimationFrame();
 
   const squares = React.useMemo(() => animSquares(state.tri), [state.tri]);
   const labels = React.useMemo(() => animLabels(state.tri), [state.tri]);
+
+  const totalDuration = Math.max(squares.duration, labels.duration);
+  const animControls = useAnimationFrame(totalDuration);
+  const { frame } = animControls;
 
   const { dA, aOpacity, dB, bOpacity, dC, cOpacity } = squares.fn(frame);
   const { aLabelOpacity, bLabelOpacity, cLabelOpacity } = labels.fn(frame);
@@ -72,16 +77,19 @@ const Graphics: React.FC = () => {
   const cLabelPos = L.cSquareLabel(state.tri);
 
   return (
-    <g>
-      <Polygon className="main-square" d={dA} opacity={aOpacity} />
-      <Polygon className="main-square" d={dB} opacity={bOpacity} />
-      <Polygon className="main-square" d={dC} opacity={cOpacity} />
-      <SquareLabel side="a" pos={aLabelPos} opacity={aLabelOpacity} />
-      <SquareLabel side="b" pos={bLabelPos} opacity={bLabelOpacity} />
-      <SquareLabel side="c" pos={cLabelPos} opacity={cLabelOpacity} />
-      <MainTriangle />
-      <ControlPoints />
-    </g>
+    <>
+      <Canvas>
+        <Polygon className="main-square" d={dA} opacity={aOpacity} />
+        <Polygon className="main-square" d={dB} opacity={bOpacity} />
+        <Polygon className="main-square" d={dC} opacity={cOpacity} />
+        <SquareLabel side="a" pos={aLabelPos} opacity={aLabelOpacity} />
+        <SquareLabel side="b" pos={bLabelPos} opacity={bLabelOpacity} />
+        <SquareLabel side="c" pos={cLabelPos} opacity={cLabelOpacity} />
+        <MainTriangle />
+        <ControlPoints />
+      </Canvas>
+      <Controls {...animControls} />
+    </>
   );
 };
 

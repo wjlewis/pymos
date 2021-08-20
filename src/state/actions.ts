@@ -14,7 +14,6 @@ export enum ActionType {
   MouseDownVVertex = 'MouseDownVVertex',
   MouseMove = 'MouseMove',
   MouseUp = 'MouseUp',
-  UpdateFrame = 'UpdateFrame',
   MakeThin = 'MakeThin',
   MakeEven = 'MakeEven',
   UpdateDims = 'UpdateDims',
@@ -47,13 +46,6 @@ export function mouseMove(pos: Vec): Action {
 
 export function mouseUp(): Action {
   return { type: ActionType.MouseUp };
-}
-
-export function updateFrame(
-  frame: number,
-  rafHandle: undefined | number
-): Action {
-  return { type: ActionType.UpdateFrame, payload: { frame, rafHandle } };
 }
 
 export function makeThin(): Action {

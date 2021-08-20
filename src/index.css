@@ -97,6 +97,8 @@ main {
 
 #illustration {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 #main-triangle-reset {
@@ -141,7 +143,14 @@ code {
 /* Graphics */
 #canvas {
   width: 100%;
-  height: 100%;
+  flex-grow: 1;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-triangle {

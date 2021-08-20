@@ -3,6 +3,8 @@ import * as L from './locations';
 import { StateContext, RightTriangle } from '../state';
 import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras } from '../tools';
+import Canvas from '../Canvas';
+import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
@@ -28,12 +30,14 @@ const Section: React.FC = () => {
 
 const Graphics: React.FC = () => {
   const { state } = React.useContext(StateContext);
-  const [frame] = useAnimationFrame();
 
   const measurements = React.useMemo(
     () => animMeasurements(state.tri),
     [state.tri]
   );
+
+  const animControls = useAnimationFrame(measurements.duration);
+  const { frame } = animControls;
 
   const { dA1, a1Opacity, dB1, b1Opacity, dA2, a2Opacity, dB2, b2Opacity } =
     measurements.fn(frame);
@@ -43,40 +47,44 @@ const Graphics: React.FC = () => {
   const bLabel2Pos = L.bSquareMeasurement2Label(state.tri);
 
   return (
-    <g>
-      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
-      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
-      <Polygon className="main-square dim" pts={L.cSquare(state.tri)} />
-      <MainTriangle />
-      <Polygon className="aux-square" pts={L.abAuxSquare(state.tri)} />
+    <>
+      <Canvas>
+        <Polygon className="main-square" pts={L.aSquare(state.tri)} />
+        <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+        <Polygon className="main-square dim" pts={L.cSquare(state.tri)} />
+        <MainTriangle />
+        <Polygon className="aux-square" pts={L.abAuxSquare(state.tri)} />
 
-      <Measurement
-        d={dA1}
-        label="a"
-        labelPos={aLabel1Pos}
-        labelOpacity={a1Opacity}
-      />
-      <Measurement
-        d={dB1}
-        label="b"
-        labelPos={bLabel1Pos}
-        labelOpacity={b1Opacity}
-      />
-      <Measurement
-        d={dA2}
-        label="a"
-        labelPos={aLabel2Pos}
-        labelOpacity={a2Opacity}
-      />
-      <Measurement
-        d={dB2}
-        label="b"
-        labelPos={bLabel2Pos}
-        labelOpacity={b2Opacity}
-      />
+        <Measurement
+          d={dA1}
+          label="a"
+          labelPos={aLabel1Pos}
+          labelOpacity={a1Opacity}
+        />
+        <Measurement
+          d={dB1}
+          label="b"
+          labelPos={bLabel1Pos}
+          labelOpacity={b1Opacity}
+        />
+        <Measurement
+          d={dA2}
+          label="a"
+          labelPos={aLabel2Pos}
+          labelOpacity={a2Opacity}
+        />
+        <Measurement
+          d={dB2}
+          label="b"
+          labelPos={bLabel2Pos}
+          labelOpacity={b2Opacity}
+        />
 
-      <ControlPoints />
-    </g>
+        <ControlPoints />
+      </Canvas>
+
+      <Controls {...animControls} />
+    </>
   );
 };
 

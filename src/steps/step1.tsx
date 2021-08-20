@@ -3,6 +3,8 @@ import * as L from './locations';
 import { StateContext, RightTriangle } from '../state';
 import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras } from '../tools';
+import Canvas from '../Canvas';
+import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Measurement from '../Measurement';
@@ -53,7 +55,6 @@ const Section: React.FC = () => {
 
 const Graphics: React.FC = () => {
   const { state } = React.useContext(StateContext);
-  const [frame] = useAnimationFrame();
 
   const controlPoints = React.useMemo(
     () => animControlPoints(state.tri),
@@ -65,6 +66,14 @@ const Graphics: React.FC = () => {
     [state.tri]
   );
 
+  const totalDuration = Math.max(
+    controlPoints.duration,
+    triangle.duration,
+    measurements.duration
+  );
+  const animControls = useAnimationFrame(totalDuration);
+  const { frame } = animControls;
+
   const { rOpacity, hOpacity, vOpacity } = controlPoints.fn(frame);
   const { d, opacity } = triangle.fn(frame);
   const { dA, aOpacity, dB, bOpacity, dC, cOpacity } = measurements.fn(frame);
@@ -74,33 +83,37 @@ const Graphics: React.FC = () => {
   const cLabelPos = L.cMeasurementLabel(state.tri);
 
   return (
-    <g>
-      <Measurement
-        d={dA}
-        label="a"
-        labelPos={aLabelPos}
-        labelOpacity={aOpacity}
-      />
-      <Measurement
-        d={dB}
-        label="b"
-        labelPos={bLabelPos}
-        labelOpacity={bOpacity}
-      />
-      <Measurement
-        d={dC}
-        label="c"
-        labelPos={cLabelPos}
-        labelOpacity={cOpacity}
-      />
+    <>
+      <Canvas>
+        <Measurement
+          d={dA}
+          label="a"
+          labelPos={aLabelPos}
+          labelOpacity={aOpacity}
+        />
+        <Measurement
+          d={dB}
+          label="b"
+          labelPos={bLabelPos}
+          labelOpacity={bOpacity}
+        />
+        <Measurement
+          d={dC}
+          label="c"
+          labelPos={cLabelPos}
+          labelOpacity={cOpacity}
+        />
 
-      <MainTriangle d={d} opacity={opacity} />
-      <ControlPoints
-        rOpacity={rOpacity}
-        hOpacity={hOpacity}
-        vOpacity={vOpacity}
-      />
-    </g>
+        <MainTriangle d={d} opacity={opacity} />
+        <ControlPoints
+          rOpacity={rOpacity}
+          hOpacity={hOpacity}
+          vOpacity={vOpacity}
+        />
+      </Canvas>
+
+      <Controls {...animControls} />
+    </>
   );
 };
 

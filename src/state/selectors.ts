@@ -1,4 +1,4 @@
-import { State } from './state';
+import { State, Dims } from './state';
 import { steps } from '../steps';
 
 export function canGoPrevious(state: State): boolean {
@@ -23,4 +23,8 @@ export function currentGraphics(state: State): React.FC {
 
 export function isTriOutOfBounds(state: State): boolean {
   return state.ui.triOutOfBounds;
+}
+
+export function dims(state: State): Dims {
+  return state.ui.dims;
 }

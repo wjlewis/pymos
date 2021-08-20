@@ -196,13 +196,19 @@ code {
   stroke: var(--blue);
 }
 
+.main-triangle-copy {
+  fill: var(--green);
+}
+
 .debug-point {
   fill: var(--debug);
+  pointer-events: none;
 }
 
 .debug-polygon {
   fill: var(--debug);
   fill-opacity: 0.2;
+  pointer-events: none;
 }
 
 /* Adaptive styles */

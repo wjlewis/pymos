@@ -1,5 +1,6 @@
 export * from './Anim';
 export * from './Vec';
+export * from './Pose';
 
 export function sign(n: number): number {
   if (n >= 0) {

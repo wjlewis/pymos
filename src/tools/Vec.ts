@@ -45,4 +45,16 @@ export class Vec implements Vector {
   perp(): Vec {
     return new Vec(-this.y, this.x);
   }
+
+  rotate(angle: number): Vec {
+    const { x, y } = this;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+
+    return new Vec(cos * x - sin * y, sin * x + cos * y);
+  }
+
+  cross(rhs: Vec): number {
+    return this.x * rhs.y - this.y * rhs.x;
+  }
 }

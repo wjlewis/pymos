@@ -1,4 +1,4 @@
-import { Vec, memo } from '../tools';
+import { Vec, Pose, memo } from '../tools';
 import { RightTriangle } from '../state';
 
 interface Selector<A> {
@@ -286,5 +286,99 @@ export const bSquareMeasurement2Label: Selector<Vec> = memo(tri => {
   const end = bSquareMeasurement2End(tri);
   const half = end.minus(start).times(1 / 2);
   const out = bPerpNorm(tri).times(SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const isRightHanded: Selector<boolean> = memo(
+  tri => rh(tri).cross(rv(tri)) >= 0
+);
+
+export const initTriPose: Selector<Pose> = memo(tri => new Pose(tri.r, 0));
+
+export const triCopyPts: Selector<Vec[]> = memo(tri => [
+  new Vec(0, 0),
+  rh(tri),
+  rv(tri),
+]);
+
+export const triCopy1Pose: Selector<Pose> = memo(tri => {
+  const angle = isRightHanded(tri) ? -Math.PI / 2 : Math.PI / 2;
+  return new Pose(cAuxV(tri), angle);
+});
+
+export const triCopy2Pose: Selector<Pose> = memo(tri => {
+  return new Pose(cAuxDiag(tri), Math.PI);
+});
+
+export const triCopy3Pose: Selector<Pose> = memo(tri => {
+  const angle = isRightHanded(tri) ? (-3 * Math.PI) / 2 : (3 * Math.PI) / 2;
+  return new Pose(cAuxH(tri), angle);
+});
+
+export const cMeasurementVOut: Selector<Vec> = memo(tri =>
+  rv(tri).norm().times(SIDE_MEASURE_OFFSET)
+);
+
+export const cMeasurementHOut: Selector<Vec> = memo(tri =>
+  rh(tri).norm().times(SIDE_MEASURE_OFFSET)
+);
+
+export const cSquareMeasurementA1Start: Selector<Vec> = memo(tri =>
+  cAuxV(tri).plus(cMeasurementVOut(tri))
+);
+
+export const cSquareMeasurementA1End: Selector<Vec> = memo(tri =>
+  c1(tri).plus(cMeasurementVOut(tri))
+);
+
+export const cSquareMeasurementB1Start: Selector<Vec> = cSquareMeasurementA1End;
+
+export const cSquareMeasurementB1End: Selector<Vec> = memo(tri =>
+  cAuxDiag(tri).plus(cMeasurementVOut(tri))
+);
+
+export const cSquareMeasurementA1Label: Selector<Vec> = memo(tri => {
+  const start = cSquareMeasurementA1Start(tri);
+  const end = cSquareMeasurementA1End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = bPerpNorm(tri).times(-SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const cSquareMeasurementB1Label: Selector<Vec> = memo(tri => {
+  const start = cSquareMeasurementB1Start(tri);
+  const end = cSquareMeasurementB1End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = bPerpNorm(tri).times(-SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const cSquareMeasurementA2Start: Selector<Vec> = memo(tri =>
+  cAuxDiag(tri).plus(cMeasurementHOut(tri))
+);
+
+export const cSquareMeasurementA2End: Selector<Vec> = memo(tri =>
+  c0(tri).plus(cMeasurementHOut(tri))
+);
+
+export const cSquareMeasurementB2Start: Selector<Vec> = cSquareMeasurementA2End;
+
+export const cSquareMeasurementB2End: Selector<Vec> = memo(tri =>
+  cAuxH(tri).plus(cMeasurementHOut(tri))
+);
+
+export const cSquareMeasurementA2Label: Selector<Vec> = memo(tri => {
+  const start = cSquareMeasurementA2Start(tri);
+  const end = cSquareMeasurementA2End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = aPerpNorm(tri).times(-SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const cSquareMeasurementB2Label: Selector<Vec> = memo(tri => {
+  const start = cSquareMeasurementB2Start(tri);
+  const end = cSquareMeasurementB2End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = aPerpNorm(tri).times(-SIDE_LABEL_OFFSET);
   return start.plus(half).plus(out);
 });

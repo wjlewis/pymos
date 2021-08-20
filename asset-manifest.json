@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/pymos/static/css/main.0c20d5ab.chunk.css",
+    "main.js": "/pymos/static/js/main.c540b12c.chunk.js",
+    "main.js.map": "/pymos/static/js/main.c540b12c.chunk.js.map",
+    "runtime-main.js": "/pymos/static/js/runtime-main.3fc06a8e.js",
+    "runtime-main.js.map": "/pymos/static/js/runtime-main.3fc06a8e.js.map",
+    "static/js/2.959dd4b8.chunk.js": "/pymos/static/js/2.959dd4b8.chunk.js",
+    "static/js/2.959dd4b8.chunk.js.map": "/pymos/static/js/2.959dd4b8.chunk.js.map",
+    "index.html": "/pymos/index.html",
+    "static/css/main.0c20d5ab.chunk.css.map": "/pymos/static/css/main.0c20d5ab.chunk.css.map",
+    "static/js/2.959dd4b8.chunk.js.LICENSE.txt": "/pymos/static/js/2.959dd4b8.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/pymos/static/media/OpenSans-Regular.1b0809d5.ttf",
+    "static/media/sonobe.cfe1c59c.svg": "/pymos/static/media/sonobe.cfe1c59c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3fc06a8e.js",
+    "static/js/2.959dd4b8.chunk.js",
+    "static/css/main.0c20d5ab.chunk.css",
+    "static/js/main.c540b12c.chunk.js"
+  ]
+}

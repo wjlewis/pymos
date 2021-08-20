@@ -1,4 +1,11 @@
 import React from 'react';
+import * as L from './locations';
+import { StateContext, RightTriangle } from '../state';
+import { useAnimationFrame } from '../hooks';
+import { Anim, Extras as AnimExtras } from '../tools';
+import ControlPoints from '../ControlPoints';
+import MainTriangle from '../MainTriangle';
+import Polygon from '../Polygon';
 
 const Section: React.FC = () => {
   return (
@@ -7,16 +14,56 @@ const Section: React.FC = () => {
 
       <p>
         To start, we construct two larger squares around our original right
-        triangle: one containing the largest square, and the other containing
-        the two smaller squares.
+        triangle: one containing the <code>&ldquo;c&rdquo;</code> square, and
+        the other containing the two smaller squares.
+      </p>
+
+      <p>
+        Curiously enough, both of these &ldquo;auxiliary&rdquo; squares appear
+        to have the same area. Is this the case? If so, can you see why? We'll
+        look at these questions next.
       </p>
     </section>
   );
 };
 
 const Graphics: React.FC = () => {
-  return null;
+  const { state } = React.useContext(StateContext);
+  const [frame] = useAnimationFrame();
+
+  const auxSquares = React.useMemo(
+    () => animAuxSquares(state.tri),
+    [state.tri]
+  );
+
+  const { abPath, cPath } = auxSquares.fn(frame);
+
+  return (
+    <g>
+      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
+      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+      <Polygon className="main-square" pts={L.cSquare(state.tri)} />
+      <MainTriangle />
+      <Polygon className="aux-square" d={abPath} />
+      <Polygon className="aux-square" d={cPath} />
+      <ControlPoints />
+    </g>
+  );
 };
+
+function animAuxSquares(tri: RightTriangle): Anim<AuxSquaresState> {
+  return Anim.Fork({
+    abPath: AnimExtras.SvgPath(L.abAuxSquare(tri), 1600),
+    cPath: Anim.Wait('', 1600).then(
+      AnimExtras.SvgPath(L.cAuxSquare(tri), 1600)
+    ),
+  });
+}
+
+interface AuxSquaresState {
+  abPath: string;
+  cPath: string;
+}
 
 const step = {
   section: Section,

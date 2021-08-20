@@ -37,7 +37,6 @@ export const aSquare: Selector<Vec[]> = memo(tri => [
   a0(tri),
   a1(tri),
   tri.r,
-  tri.v,
 ]);
 
 export const aSquareLabel: Selector<Vec> = memo(tri => {
@@ -69,7 +68,6 @@ export const bSquare: Selector<Vec[]> = memo(tri => [
   b0(tri),
   b1(tri),
   tri.h,
-  tri.r,
 ]);
 
 export const bSquareLabel: Selector<Vec> = memo(tri => {
@@ -104,7 +102,6 @@ export const cSquare: Selector<Vec[]> = memo(tri => [
   c0(tri),
   c1(tri),
   tri.v,
-  tri.h,
 ]);
 
 export const cSquareLabel: Selector<Vec> = memo(tri => {
@@ -202,5 +199,92 @@ export const cMeasurementLabel: Selector<Vec> = memo(tri => {
   const end = cMeasurementEnd(tri);
   const half = end.minus(start).times(1 / 2);
   const out = cPerpNorm(tri).times(SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const abAuxSquare: Selector<Vec[]> = memo(tri => [
+  tri.v,
+  a0(tri),
+  abOut(tri),
+  b1(tri),
+  abIn(tri),
+]);
+
+export const cAuxSquare: Selector<Vec[]> = memo(tri => [
+  tri.r,
+  cAuxV(tri),
+  cAuxDiag(tri),
+  cAuxH(tri),
+]);
+
+export const abMeasurementHOut: Selector<Vec> = memo(tri => {
+  const vA0 = a0(tri).minus(tri.v);
+  const out = vA0.norm().times(SIDE_MEASURE_OFFSET);
+  return vA0.plus(out);
+});
+
+export const abMeasurementVOut: Selector<Vec> = memo(tri => {
+  const hB1 = b1(tri).minus(tri.h);
+  const out = hB1.norm().times(SIDE_MEASURE_OFFSET);
+  return hB1.plus(out);
+});
+
+export const aSquareMeasurement1Start: Selector<Vec> = memo(tri =>
+  tri.v.plus(abMeasurementHOut(tri))
+);
+
+export const aSquareMeasurement1End: Selector<Vec> = memo(tri =>
+  tri.r.plus(abMeasurementHOut(tri))
+);
+
+export const bSquareMeasurement1Start: Selector<Vec> = aSquareMeasurement1End;
+
+export const bSquareMeasurement1End: Selector<Vec> = memo(tri =>
+  b0(tri).plus(abMeasurementHOut(tri))
+);
+
+export const aSquareMeasurement1Label: Selector<Vec> = memo(tri => {
+  const start = aSquareMeasurement1Start(tri);
+  const end = aSquareMeasurement1End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = aPerpNorm(tri).times(SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const bSquareMeasurement1Label: Selector<Vec> = memo(tri => {
+  const start = bSquareMeasurement1Start(tri);
+  const end = bSquareMeasurement1End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = aPerpNorm(tri).times(SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const aSquareMeasurement2Start: Selector<Vec> = memo(tri =>
+  a1(tri).plus(abMeasurementVOut(tri))
+);
+
+export const aSquareMeasurement2End: Selector<Vec> = memo(tri =>
+  tri.r.plus(abMeasurementVOut(tri))
+);
+
+export const bSquareMeasurement2Start: Selector<Vec> = aSquareMeasurement2End;
+
+export const bSquareMeasurement2End: Selector<Vec> = memo(tri =>
+  tri.h.plus(abMeasurementVOut(tri))
+);
+
+export const aSquareMeasurement2Label: Selector<Vec> = memo(tri => {
+  const start = aSquareMeasurement2Start(tri);
+  const end = aSquareMeasurement2End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = bPerpNorm(tri).times(SIDE_LABEL_OFFSET);
+  return start.plus(half).plus(out);
+});
+
+export const bSquareMeasurement2Label: Selector<Vec> = memo(tri => {
+  const start = bSquareMeasurement2Start(tri);
+  const end = bSquareMeasurement2End(tri);
+  const half = end.minus(start).times(1 / 2);
+  const out = bPerpNorm(tri).times(SIDE_LABEL_OFFSET);
   return start.plus(half).plus(out);
 });

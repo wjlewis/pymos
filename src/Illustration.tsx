@@ -2,10 +2,13 @@ import React from 'react';
 import { StateContext, Actions as A, Selectors as S } from './state';
 import { useDims, useMouse } from './hooks';
 import { Vec } from './tools';
-// eslint-disable-next-line
 import DebugPoints from './DebugPoints';
 
-const Illustration: React.FC = () => {
+export interface IllustrationProps {
+  debug?: boolean;
+}
+
+const Illustration: React.FC<IllustrationProps> = props => {
   const { state, dispatch } = React.useContext(StateContext);
   const ref = React.useRef<HTMLElement>(null);
   const dims = useDims(ref);
@@ -32,7 +35,7 @@ const Illustration: React.FC = () => {
       >
         <g transform={`${translation}`}>
           <Graphics />
-          {/*<DebugPoints />*/}
+          {props.debug && <DebugPoints />}
         </g>
       </svg>
     </article>

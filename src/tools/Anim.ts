@@ -88,18 +88,19 @@ export interface Vector {
 }
 
 function animSvgPath(pts: Vec[], duration: number): Anim<string> {
-  const segmentDuration = duration / (pts.length - 1);
+  const pts1 = [...pts, pts[0]];
+  const segmentDuration = duration / (pts1.length - 1);
 
   return new Anim(t => {
     if (t < duration) {
       const seg = Math.floor(t / segmentDuration);
-      const from = pts[seg];
-      const to = pts[seg + 1];
+      const from = pts1[seg];
+      const to = pts1[seg + 1];
       const tNorm = (t - seg * segmentDuration) / segmentDuration;
       const pos = from.plus(
         to.minus(from).times(tNorm * tNorm * (3 - 2 * tNorm))
       );
-      const fixed = pts
+      const fixed = pts1
         .slice(0, seg + 1)
         .map(pt => `${pt.x} ${pt.y}`)
         .join(' L ');

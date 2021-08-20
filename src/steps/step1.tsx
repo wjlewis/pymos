@@ -122,7 +122,7 @@ function animTriangle(tri: RightTriangle): Anim<TriangleState> {
   const { r, h, v } = tri;
 
   return Anim.Fork({
-    d: AnimExtras.SvgPath([v, r, h, v], 1800),
+    d: AnimExtras.SvgPath([v, r, h], 1800),
     opacity: Anim.Wait(0, 2400).then(Anim.Ease(0, 1, 500)),
   });
 }

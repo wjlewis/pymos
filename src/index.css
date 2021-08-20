@@ -127,8 +127,8 @@ code {
 }
 
 .main-triangle {
-  fill: var(--green);
-  stroke: var(--green);
+  fill: var(--red);
+  stroke: var(--red);
   stroke-width: 3;
   stroke-linejoin: round;
 }
@@ -158,9 +158,9 @@ code {
 }
 
 .main-square {
-  stroke: var(--red);
+  stroke: var(--yellow);
   stroke-width: 3;
-  fill: var(--red);
+  fill: var(--yellow);
 }
 
 .main-square-label {
@@ -171,6 +171,12 @@ code {
 
 .main-square-label-exponent {
   font-size: 0.8em;
+}
+
+.aux-square {
+  fill: none;
+  stroke-width: 3;
+  stroke: var(--blue);
 }
 
 .debug-point {

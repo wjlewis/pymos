@@ -1,5 +1,5 @@
 import { Vec } from '../tools';
-import { Dims } from './state';
+import { Dims, Device } from './state';
 
 export interface Action {
   type: string;
@@ -17,6 +17,7 @@ export enum ActionType {
   MakeThin = 'MakeThin',
   MakeEven = 'MakeEven',
   UpdateDims = 'UpdateDims',
+  UpdateDevice = 'UpdateDevice',
   ResetMainTriangle = 'ResetMainTriangle',
 }
 
@@ -58,6 +59,10 @@ export function makeEven(): Action {
 
 export function updateDims(dims: Dims): Action {
   return { type: ActionType.UpdateDims, payload: dims };
+}
+
+export function updateDevice(device: Device): Action {
+  return { type: ActionType.UpdateDevice, payload: device };
 }
 
 export function resetMainTriangle(): Action {

@@ -1,4 +1,4 @@
-import { State, Dims, initTri } from './state';
+import { State, Dims, Device, initTri, smallInitTri } from './state';
 import { Action, ActionType } from './actions';
 import { steps } from '../steps';
 import { DragSubject } from './DragSubject';
@@ -26,6 +26,8 @@ export function reducer(state: State, action: Action): State {
       return reduceMakeEven(state);
     case ActionType.UpdateDims:
       return reduceUpdateDims(state, action.payload);
+    case ActionType.UpdateDevice:
+      return reduceUpdateDevice(state, action.payload);
     case ActionType.ResetMainTriangle:
       return reduceResetMainTriangle(state);
     default:
@@ -149,8 +151,28 @@ function reduceUpdateDims(state: State, dims: Dims): State {
   return { ...state, ui: { ...state.ui, dims, triOutOfBounds } };
 }
 
+function reduceUpdateDevice(state: State, device: Device): State {
+  const currentDevice = state.ui.device;
+  const tri = laptopToMobile(currentDevice, device)
+    ? smallInitTri
+    : mobileToLaptop(currentDevice, device)
+    ? initTri
+    : state.tri;
+  return { ...state, tri, ui: { ...state.ui, device } };
+}
+
+function laptopToMobile(currentDevice: Device, newDevice: Device): boolean {
+  return currentDevice === Device.Laptop && newDevice === Device.Mobile;
+}
+
+function mobileToLaptop(currentDevice: Device, newDevice: Device): boolean {
+  return currentDevice === Device.Mobile && newDevice === Device.Laptop;
+}
+
 function reduceResetMainTriangle(state: State): State {
-  return { ...state, tri: initTri, ui: { ...state.ui, triOutOfBounds: false } };
+  const tri = state.ui.device === Device.Laptop ? initTri : smallInitTri;
+
+  return { ...state, tri, ui: { ...state.ui, triOutOfBounds: false } };
 }
 
 function isTriOutOfBounds(state: State, dims: Dims): boolean {

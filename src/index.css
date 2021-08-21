@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'Merriweather';
-  src: url('./assets/Merriweather-Regular.ttf');
+  font-family: 'Open Sans';
+  src: url('./assets/OpenSans-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('./assets/OpenSans-Regular.ttf');
+  font-family: 'Computer Modern';
+  src: url('./assets/CMU-Serif-Italic.ttf');
 }
 
 :root {
   --text: #24202d;
   --bg: #f7f4e3;
   --bg-translucent: #f7f4e388;
-  --header-font: 'Merriweather', serif;
+  --header-font: 'Computer Modern', serif;
   --body-font: 'Open Sans', sans-serif;
   --blue: #4971dd;
   --yellow: #edbd53;
@@ -47,17 +47,30 @@ body,
 
 button {
   font-family: var(--body-font);
+  font-size: 1em;
   cursor: pointer;
+  color: var(--text);
+  border: 1px solid var(--text);
+  background-color: #e5e2d2;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #ddd9c0;
 }
 
 button:disabled {
   cursor: unset;
+  background-color: #eae9e2;
+  color: #69617c;
+  border-color: #69617c;
 }
 
 /* Main layout */
 header {
   width: 100%;
   height: 60px;
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
@@ -75,6 +88,7 @@ header nav #icon {
 footer {
   width: 100%;
   height: 45px;
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
@@ -121,12 +135,12 @@ h2 {
 
 h1 {
   margin: 0.5em 0;
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 h2 {
   margin: 0.7em 0;
-  font-size: 1.3em;
+  font-size: 1.6em;
 }
 
 p {
@@ -136,17 +150,19 @@ p {
 
 code {
   font-family: var(--header-font);
-  font-style: italic;
-  padding: 0 0.1em;
+  font-size: 1.2em;
 }
 
 /* Graphics */
 #canvas {
   width: 100%;
   flex-grow: 1;
+  flex-shrink: 1;
 }
 
 #controls {
+  height: 60px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,7 +196,7 @@ code {
 
 .measurement-label {
   font-family: var(--header-font);
-  font-size: 1.5em;
+  font-size: 1.7em;
   fill: var(--gray);
 }
 
@@ -197,7 +213,7 @@ code {
 
 .main-square-label {
   font-family: var(--header-font);
-  font-size: 1.5em;
+  font-size: 2em;
   fill: var(--bg);
 }
 
@@ -280,6 +296,10 @@ code {
 
 /* Phones */
 @media screen and (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+
   main {
     display: grid;
     grid-template-rows: 1fr 1fr;
@@ -287,16 +307,24 @@ code {
 
   #prose {
     grid-row: 1 / 2;
-    margin: 0 2em;
   }
 
   #illustration {
     grid-row: 2 / 3;
-    margin: 0 2em;
   }
 
+  header {
+    height: 45px;
+  }
+
+  header nav #icon {
+    height: 26px;
+  }
+
+  #prose,
+  #illustration,
   header nav,
   footer nav {
-    margin: 0 2em;
+    margin: 0 1em;
   }
 }

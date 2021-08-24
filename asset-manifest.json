@@ -1,22 +1,25 @@
 {
   "files": {
-    "main.css": "/pymos/static/css/main.0c20d5ab.chunk.css",
-    "main.js": "/pymos/static/js/main.1bb15e8c.chunk.js",
-    "main.js.map": "/pymos/static/js/main.1bb15e8c.chunk.js.map",
+    "main.css": "/pymos/static/css/main.aa4e4e9b.chunk.css",
+    "main.js": "/pymos/static/js/main.05e2bade.chunk.js",
+    "main.js.map": "/pymos/static/js/main.05e2bade.chunk.js.map",
     "runtime-main.js": "/pymos/static/js/runtime-main.3fc06a8e.js",
     "runtime-main.js.map": "/pymos/static/js/runtime-main.3fc06a8e.js.map",
     "static/js/2.959dd4b8.chunk.js": "/pymos/static/js/2.959dd4b8.chunk.js",
     "static/js/2.959dd4b8.chunk.js.map": "/pymos/static/js/2.959dd4b8.chunk.js.map",
     "index.html": "/pymos/index.html",
-    "static/css/main.0c20d5ab.chunk.css.map": "/pymos/static/css/main.0c20d5ab.chunk.css.map",
+    "static/css/main.aa4e4e9b.chunk.css.map": "/pymos/static/css/main.aa4e4e9b.chunk.css.map",
     "static/js/2.959dd4b8.chunk.js.LICENSE.txt": "/pymos/static/js/2.959dd4b8.chunk.js.LICENSE.txt",
     "static/media/index.css": "/pymos/static/media/OpenSans-Regular.1b0809d5.ttf",
+    "static/media/pause.bb5abc7d.svg": "/pymos/static/media/pause.bb5abc7d.svg",
+    "static/media/play.812a279b.svg": "/pymos/static/media/play.812a279b.svg",
+    "static/media/restart.410a94ba.svg": "/pymos/static/media/restart.410a94ba.svg",
     "static/media/sonobe.cfe1c59c.svg": "/pymos/static/media/sonobe.cfe1c59c.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.3fc06a8e.js",
     "static/js/2.959dd4b8.chunk.js",
-    "static/css/main.0c20d5ab.chunk.css",
-    "static/js/main.1bb15e8c.chunk.js"
+    "static/css/main.aa4e4e9b.chunk.css",
+    "static/js/main.05e2bade.chunk.js"
   ]
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import * as L from './locations';
+import { StepProps } from './index';
 import { StateContext, RightTriangle, Actions as A } from '../state';
-import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras, Vec } from '../tools';
-import Canvas from '../Canvas';
-import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
+import SquareLabel from '../SquareLabel';
 
 const Section: React.FC = () => {
   const { dispatch } = React.useContext(StateContext);
@@ -35,9 +34,12 @@ const Section: React.FC = () => {
         <code>
           s<sup>2</sup>
         </code>
-        , our new interpretation of the Pythagorean Theorem states that the two
-        smaller squares together have exactly the same area as the larger
-        square.
+        , our new interpretation of the Pythagorean Theorem states that{' '}
+        <em>
+          the two smaller squares together have exactly the same area as the
+          larger square
+        </em>
+        .
       </p>
 
       <p>This is what we'll demonstrate in the steps to come.</p>
@@ -59,15 +61,11 @@ const Section: React.FC = () => {
   );
 };
 
-const Graphics: React.FC = () => {
+const Graphics: React.FC<StepProps> = ({ frame }) => {
   const { state } = React.useContext(StateContext);
 
   const squares = React.useMemo(() => animSquares(state.tri), [state.tri]);
   const labels = React.useMemo(() => animLabels(state.tri), [state.tri]);
-
-  const totalDuration = Math.max(squares.duration, labels.duration);
-  const animControls = useAnimationFrame(totalDuration);
-  const { frame } = animControls;
 
   const { dA, aOpacity, dB, bOpacity, dC, cOpacity } = squares.fn(frame);
   const { aLabelOpacity, bLabelOpacity, cLabelOpacity } = labels.fn(frame);
@@ -78,44 +76,15 @@ const Graphics: React.FC = () => {
 
   return (
     <>
-      <Canvas>
-        <Polygon className="main-square" d={dA} opacity={aOpacity} />
-        <Polygon className="main-square" d={dB} opacity={bOpacity} />
-        <Polygon className="main-square" d={dC} opacity={cOpacity} />
-        <SquareLabel side="a" pos={aLabelPos} opacity={aLabelOpacity} />
-        <SquareLabel side="b" pos={bLabelPos} opacity={bLabelOpacity} />
-        <SquareLabel side="c" pos={cLabelPos} opacity={cLabelOpacity} />
-        <MainTriangle />
-        <ControlPoints />
-      </Canvas>
-      <Controls {...animControls} />
+      <Polygon className="main-square" d={dA} opacity={aOpacity} />
+      <Polygon className="main-square" d={dB} opacity={bOpacity} />
+      <Polygon className="main-square" d={dC} opacity={cOpacity} />
+      <SquareLabel side="a" pos={aLabelPos} opacity={aLabelOpacity} />
+      <SquareLabel side="b" pos={bLabelPos} opacity={bLabelOpacity} />
+      <SquareLabel side="c" pos={cLabelPos} opacity={cLabelOpacity} />
+      <MainTriangle />
+      <ControlPoints />
     </>
-  );
-};
-
-interface SquareLabelProps {
-  side: string;
-  pos: Vec;
-  opacity: number;
-}
-
-const SquareLabel: React.FC<SquareLabelProps> = props => {
-  const { side, pos, opacity } = props;
-
-  return (
-    <text
-      className="main-square-label"
-      x={pos.x}
-      y={pos.y}
-      fillOpacity={opacity}
-      textAnchor="middle"
-      dominantBaseline="middle"
-    >
-      {side}
-      <tspan className="main-square-label-exponent" dy="-1ex">
-        2
-      </tspan>
-    </text>
   );
 };
 
@@ -156,6 +125,7 @@ interface LabelsState {
 const step = {
   section: Section,
   graphics: Graphics,
+  duration: 4200,
 };
 
 export default step;

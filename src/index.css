@@ -101,7 +101,7 @@ footer nav {
 
 main {
   width: 100%;
-  flex: 1 1 auto;
+  flex: 1 1 100%;
   overflow: hidden;
 }
 
@@ -129,7 +129,8 @@ main {
 
 /* Typography */
 h1,
-h2 {
+h2,
+h3 {
   font-family: var(--header-font);
 }
 
@@ -143,6 +144,11 @@ h2 {
   font-size: 1.6em;
 }
 
+h3 {
+  margin: 0.5em 0;
+  font-size: 1.3em;
+}
+
 p {
   margin: 1em 0;
   line-height: 1.5;
@@ -151,6 +157,7 @@ p {
 code {
   font-family: var(--header-font);
   font-size: 1.2em;
+  white-space: nowrap;
 }
 
 /* Graphics */
@@ -161,12 +168,27 @@ code {
 }
 
 #controls {
-  height: 60px;
-  flex-shrink: 0;
+  height: 45px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+#controls button {
+  width: 45px;
+  height: 45px;
+  background: none;
+  border: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+#controls button img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .main-triangle {
@@ -174,6 +196,7 @@ code {
   stroke: var(--red);
   stroke-width: 3;
   stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 .control-point {
@@ -187,11 +210,14 @@ code {
   height: 10px;
   border-radius: 5px;
   background-color: var(--blue);
+  opacity: 0.7;
 }
 
 .measurement-path {
   stroke-width: 2;
   stroke: var(--gray);
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 .measurement-label {
@@ -204,6 +230,8 @@ code {
   stroke: var(--yellow);
   stroke-width: 3;
   fill: var(--yellow);
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 .main-square.dim {
@@ -222,13 +250,43 @@ code {
 }
 
 .aux-square {
-  fill: none;
+  fill: var(--blue);
   stroke-width: 3;
   stroke: var(--blue);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.aux-square-label {
+  font-family: var(--header-font);
+  font-size: 2em;
+  fill: var(--bg);
+}
+
+.tri-label {
+  font-family: var(--header-font);
+  font-size: 1.5em;
+  fill: var(--bg);
 }
 
 .main-triangle-copy {
   fill: var(--green);
+}
+
+.angle-path {
+  stroke-width: 3;
+  stroke: var(--blue);
+}
+
+.angle-measure {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.angle-measure.inside {
+  stroke: var(--bg);
 }
 
 .debug-point {
@@ -240,6 +298,16 @@ code {
   fill: var(--debug);
   fill-opacity: 0.2;
   pointer-events: none;
+}
+
+/* General-Purpose Components */
+.slider-line {
+  stroke: var(--blue);
+}
+
+.slider-button {
+  cursor: move;
+  fill: var(--blue);
 }
 
 /* Adaptive styles */
@@ -302,14 +370,14 @@ code {
 
   main {
     display: grid;
-    grid-template-rows: 1fr 1fr;
-  }
-
-  #prose {
-    grid-row: 1 / 2;
+    grid-template-rows: 2fr 1fr;
   }
 
   #illustration {
+    grid-row: 1 / 2;
+  }
+
+  #prose {
     grid-row: 2 / 3;
   }
 

@@ -1,10 +1,8 @@
 import React from 'react';
 import * as L from './locations';
+import { StepProps } from './index';
 import { StateContext, RightTriangle } from '../state';
-import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras } from '../tools';
-import Canvas from '../Canvas';
-import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Measurement from '../Measurement';
@@ -31,7 +29,7 @@ const Section: React.FC = () => {
         How do we <em>know</em> that this is true? Perhaps we could (somehow)
         check a large collection of right triangles to see if this is always the
         case. Although such an effort might instill some confidence, it would be
-        far from definitive: inevitably, we'd remain tormented by the nagging
+        far from definitive: we'd inevitably remain tormented by the nagging
         thought that we'd missed some exotic conjecture-defying triangle.
       </p>
       <p>
@@ -53,7 +51,7 @@ const Section: React.FC = () => {
   );
 };
 
-const Graphics: React.FC = () => {
+const Graphics: React.FC<StepProps> = ({ frame }) => {
   const { state } = React.useContext(StateContext);
 
   const controlPoints = React.useMemo(
@@ -66,14 +64,6 @@ const Graphics: React.FC = () => {
     [state.tri]
   );
 
-  const totalDuration = Math.max(
-    controlPoints.duration,
-    triangle.duration,
-    measurements.duration
-  );
-  const animControls = useAnimationFrame(totalDuration);
-  const { frame } = animControls;
-
   const { rOpacity, hOpacity, vOpacity } = controlPoints.fn(frame);
   const { d, opacity } = triangle.fn(frame);
   const { dA, aOpacity, dB, bOpacity, dC, cOpacity } = measurements.fn(frame);
@@ -84,44 +74,40 @@ const Graphics: React.FC = () => {
 
   return (
     <>
-      <Canvas>
-        <Measurement
-          d={dA}
-          label="a"
-          labelPos={aLabelPos}
-          labelOpacity={aOpacity}
-        />
-        <Measurement
-          d={dB}
-          label="b"
-          labelPos={bLabelPos}
-          labelOpacity={bOpacity}
-        />
-        <Measurement
-          d={dC}
-          label="c"
-          labelPos={cLabelPos}
-          labelOpacity={cOpacity}
-        />
+      <Measurement
+        d={dA}
+        label="a"
+        labelPos={aLabelPos}
+        labelOpacity={aOpacity}
+      />
+      <Measurement
+        d={dB}
+        label="b"
+        labelPos={bLabelPos}
+        labelOpacity={bOpacity}
+      />
+      <Measurement
+        d={dC}
+        label="c"
+        labelPos={cLabelPos}
+        labelOpacity={cOpacity}
+      />
 
-        <MainTriangle d={d} opacity={opacity} />
-        <ControlPoints
-          rOpacity={rOpacity}
-          hOpacity={hOpacity}
-          vOpacity={vOpacity}
-        />
-      </Canvas>
-
-      <Controls {...animControls} />
+      <MainTriangle d={d} opacity={opacity} />
+      <ControlPoints
+        rOpacity={rOpacity}
+        hOpacity={hOpacity}
+        vOpacity={vOpacity}
+      />
     </>
   );
 };
 
 function animControlPoints(tri: RightTriangle): Anim<ControlPointsState> {
   return Anim.Fork({
-    vOpacity: Anim.Ease(0, 1, 400),
-    rOpacity: Anim.Wait(0, 600).then(Anim.Ease(0, 1, 400)),
-    hOpacity: Anim.Wait(0, 1200).then(Anim.Ease(0, 1, 400)),
+    vOpacity: Anim.Ease(0, 0.5, 400),
+    rOpacity: Anim.Wait(0, 600).then(Anim.Ease(0, 0.5, 400)),
+    hOpacity: Anim.Wait(0, 1200).then(Anim.Ease(0, 0.5, 400)),
   });
 }
 
@@ -152,28 +138,28 @@ function animMeasurements(tri: RightTriangle): Anim<MeasurementsState> {
         L.aMeasurementStart(tri),
         L.aMeasurementEnd(tri),
         20,
-        1600
+        1200
       )
     ),
-    aOpacity: Anim.Wait(0, 4600).then(Anim.Ease(0, 1, 800)),
-    dB: Anim.Wait('', 5000).then(
+    aOpacity: Anim.Wait(0, 4200).then(Anim.Ease(0, 1, 800)),
+    dB: Anim.Wait('', 4600).then(
       AnimExtras.Measurement(
         L.bMeasurementStart(tri),
         L.bMeasurementEnd(tri),
         20,
-        1600
+        1200
       )
     ),
-    bOpacity: Anim.Wait(0, 6600).then(Anim.Ease(0, 1, 800)),
-    dC: Anim.Wait('', 7000).then(
+    bOpacity: Anim.Wait(0, 5800).then(Anim.Ease(0, 1, 800)),
+    dC: Anim.Wait('', 6200).then(
       AnimExtras.Measurement(
         L.cMeasurementStart(tri),
         L.cMeasurementEnd(tri),
         20,
-        1600
+        1200
       )
     ),
-    cOpacity: Anim.Wait(0, 8600).then(Anim.Ease(0, 1, 800)),
+    cOpacity: Anim.Wait(0, 7400).then(Anim.Ease(0, 1, 800)),
   });
 }
 
@@ -189,6 +175,7 @@ interface MeasurementsState {
 const step = {
   section: Section,
   graphics: Graphics,
+  duration: 8200,
 };
 
 export default step;

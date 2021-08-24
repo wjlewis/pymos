@@ -6,7 +6,6 @@ import step5 from './step5';
 import step6 from './step6';
 import step7 from './step7';
 import step8 from './step8';
-import step9 from './step9';
 
 export * as Locations from './locations';
 
@@ -19,10 +18,14 @@ export const steps: Step[] = [
   step6,
   step7,
   step8,
-  step9,
 ];
 
 export interface Step {
   section: React.FC;
-  graphics: React.FC;
+  graphics: React.FC<StepProps>;
+  duration: number;
+}
+
+export interface StepProps {
+  frame: number;
 }

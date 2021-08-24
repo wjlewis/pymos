@@ -57,4 +57,9 @@ export class Vec implements Vector {
   cross(rhs: Vec): number {
     return this.x * rhs.y - this.y * rhs.x;
   }
+
+  angle(): number {
+    const angle = Math.atan2(this.y, this.x);
+    return angle < 0 ? angle + 2 * Math.PI : angle;
+  }
 }

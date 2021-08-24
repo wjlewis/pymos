@@ -87,8 +87,12 @@ export interface Vector {
   times(scalar: any): any;
 }
 
-function animSvgPath(pts: Vec[], duration: number): Anim<string> {
-  const pts1 = [...pts, pts[0]];
+function animSvgPath(
+  pts: Vec[],
+  duration: number,
+  closePath = true
+): Anim<string> {
+  const pts1 = closePath ? [...pts, pts[0]] : pts;
   const segmentDuration = duration / (pts1.length - 1);
 
   return new Anim(t => {
@@ -106,7 +110,37 @@ function animSvgPath(pts: Vec[], duration: number): Anim<string> {
         .join(' L ');
       return `M ${fixed} L ${pos.x} ${pos.y}`;
     } else {
-      return `M ${pts.map(pt => `${pt.x} ${pt.y}`).join(' L ')} Z`;
+      return `M ${pts.map(pt => `${pt.x} ${pt.y}`).join(' L ')}${
+        closePath ? 'Z' : ''
+      }`;
+    }
+  }, duration);
+}
+
+function animSvgArc(
+  root: Vec,
+  start: Vec,
+  end: Vec,
+  r: number,
+  duration: number
+): Anim<string> {
+  const startScaled = start.norm().times(r);
+  const init = root.plus(startScaled);
+  const final = root.plus(end.norm().times(r));
+  const startAngle = start.angle();
+  const xAxisRotation = startAngle;
+  const cross = start.cross(end);
+  const totalAngle = end.angle() - startAngle;
+  const sweepFlag = cross < 0 ? 0 : 1;
+
+  return new Anim(t => {
+    if (t < duration) {
+      const tNorm = t / duration;
+      const angle = totalAngle * tNorm * tNorm * (3 - 2 * tNorm);
+      const tempFinal = root.plus(startScaled.rotate(angle));
+      return `M ${init.x} ${init.y} A ${r} ${r}, ${xAxisRotation}, 0 ${sweepFlag}, ${tempFinal.x} ${tempFinal.y}`;
+    } else {
+      return `M ${init.x} ${init.y} A ${r} ${r}, ${xAxisRotation}, 0 ${sweepFlag}, ${final.x} ${final.y}`;
     }
   }, duration);
 }
@@ -165,5 +199,6 @@ function animMeasurement(
 
 export const Extras = {
   SvgPath: animSvgPath,
+  SvgArc: animSvgArc,
   Measurement: animMeasurement,
 };

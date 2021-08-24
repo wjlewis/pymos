@@ -1,7 +1,7 @@
 import React from 'react';
 import { StateContext, Actions as A } from './state';
 
-export const CONTROL_POINT_RADIUS = 8;
+export const CONTROL_POINT_RADIUS = 16;
 
 export interface ControlPointsProps {
   rOpacity?: number;
@@ -11,7 +11,7 @@ export interface ControlPointsProps {
 
 const ControlPoints: React.FC<ControlPointsProps> = props => {
   const { state, dispatch } = React.useContext(StateContext);
-  const { rOpacity = 1, hOpacity = 1, vOpacity = 1 } = props;
+  const { rOpacity = 0.5, hOpacity = 0.5, vOpacity = 0.5 } = props;
 
   const { r, h, v } = state.tri;
 
@@ -36,6 +36,7 @@ const ControlPoints: React.FC<ControlPointsProps> = props => {
         r={CONTROL_POINT_RADIUS}
         fillOpacity={rOpacity}
         onMouseDown={handleRDown}
+        onTouchStart={handleRDown}
       />
       <circle
         className="control-point"
@@ -44,6 +45,7 @@ const ControlPoints: React.FC<ControlPointsProps> = props => {
         r={CONTROL_POINT_RADIUS}
         fillOpacity={hOpacity}
         onMouseDown={handleHDown}
+        onTouchStart={handleHDown}
       />
       <circle
         className="control-point"
@@ -52,6 +54,7 @@ const ControlPoints: React.FC<ControlPointsProps> = props => {
         r={CONTROL_POINT_RADIUS}
         fillOpacity={vOpacity}
         onMouseDown={handleVDown}
+        onTouchStart={handleVDown}
       />
     </g>
   );

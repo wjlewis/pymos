@@ -30,18 +30,28 @@ export function useMouse<E extends HTMLElement>(
       return onMove(new Vec(clientX - left, clientY - top));
     }
 
-    document.addEventListener('mousemove', handleMove);
-    return () => document.removeEventListener('mousemove', handleMove);
-  }, [onMove, bounds]);
-
-  React.useEffect(() => {
+    function handleTouchMove(e: TouchEvent) {
+      if (e.touches.length !== 1) {
+        return;
+      }
+      return handleMove(e.touches[0] as any as MouseEvent);
+    }
     function handleUp() {
       return onUp();
     }
 
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('mouseup', handleUp);
-    return () => document.removeEventListener('mouseup', handleUp);
-  }, [onUp]);
+    document.addEventListener('touchend', handleUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('mouseup', handleUp);
+      document.removeEventListener('touchend', handleUp);
+    };
+  }, [onMove, onUp, bounds]);
 
   return ref;
 }

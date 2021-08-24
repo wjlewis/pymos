@@ -15,6 +15,8 @@ export const rv: Selector<Vec> = memo(tri => vr(tri).times(-1));
 
 export const rh: Selector<Vec> = memo(tri => hr(tri).times(-1));
 
+export const hv: Selector<Vec> = memo(tri => vh(tri).times(-1));
+
 export const aPerpNorm: Selector<Vec> = memo(tri => {
   return hr(tri).norm();
 });
@@ -396,3 +398,49 @@ export const cSquareMeasurementB2Label: Selector<Vec> = memo(tri => {
   const out = aPerpNorm(tri).times(-SIDE_LABEL_OFFSET);
   return start.plus(half).plus(out);
 });
+
+export const triCopyLabelOut: Selector<Vec> = memo(tri => {
+  const vert = rv(tri).times(0.33);
+  const horiz = rh(tri).times(0.33);
+  return horiz.plus(vert);
+});
+
+export const mainTriLabel: Selector<Vec> = memo(tri => {
+  return tri.r.plus(triCopyLabelOut(tri));
+});
+
+export const triCopyC1Label: Selector<Vec> = memo(tri => {
+  const angle = isRightHanded(tri) ? (3 * Math.PI) / 2 : Math.PI / 2;
+  return cAuxV(tri).plus(triCopyLabelOut(tri).rotate(angle));
+});
+
+export const triCopyC2Label: Selector<Vec> = memo(tri => {
+  return cAuxDiag(tri).plus(triCopyLabelOut(tri).rotate(Math.PI));
+});
+
+export const triCopyC3Label: Selector<Vec> = memo(tri => {
+  const angle = isRightHanded(tri) ? Math.PI / 2 : (3 * Math.PI) / 2;
+  return cAuxH(tri).plus(triCopyLabelOut(tri).rotate(angle));
+});
+
+export const triCopyAB1Label: Selector<Vec> = memo(tri => {
+  return abIn(tri).plus(triCopyLabelOut(tri).rotate(Math.PI));
+});
+
+export const triCopyAB2Label: Selector<Vec> = memo(tri => {
+  const angle = isRightHanded(tri) ? -Math.PI / 2 : Math.PI / 2;
+  return a1(tri).plus(triCopyLabelOut(tri).rotate(angle));
+});
+
+export const triCopyAB3Label: Selector<Vec> = memo(tri => {
+  const angle = isRightHanded(tri) ? Math.PI / 2 : -Math.PI / 2;
+  return b0(tri).plus(triCopyLabelOut(tri).rotate(angle));
+});
+
+export const vC1: Selector<Vec> = memo(tri => c1(tri).minus(tri.v));
+
+export const vCAuxV: Selector<Vec> = memo(tri => cAuxV(tri).minus(tri.v));
+
+export const c1V: Selector<Vec> = memo(tri => vC1(tri).times(-1));
+
+export const c1CAuxV: Selector<Vec> = memo(tri => cAuxV(tri).minus(c1(tri)));

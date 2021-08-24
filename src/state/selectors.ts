@@ -1,5 +1,5 @@
 import { State, Dims } from './state';
-import { steps } from '../steps';
+import { StepProps, steps } from '../steps';
 
 export function canGoPrevious(state: State): boolean {
   return state.stepIndex > 0;
@@ -13,11 +13,15 @@ export function stepProgress(state: State): string {
   return `${state.stepIndex + 1} / ${steps.length}`;
 }
 
+export function stepIndex(state: State): number {
+  return state.stepIndex;
+}
+
 export function currentSection(state: State): React.FC {
   return steps[state.stepIndex].section;
 }
 
-export function currentGraphics(state: State): React.FC {
+export function currentGraphics(state: State): React.FC<StepProps> {
   return steps[state.stepIndex].graphics;
 }
 
@@ -27,4 +31,8 @@ export function isTriOutOfBounds(state: State): boolean {
 
 export function dims(state: State): Dims {
   return state.ui.dims;
+}
+
+export function currentDuration(state: State): number {
+  return steps[state.stepIndex].duration;
 }

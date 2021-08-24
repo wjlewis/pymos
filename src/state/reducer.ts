@@ -176,6 +176,7 @@ function reduceResetMainTriangle(state: State): State {
 }
 
 function isTriOutOfBounds(state: State, dims: Dims): boolean {
+  return false;
   const { r } = state.tri;
   const { width, height } = dims;
 

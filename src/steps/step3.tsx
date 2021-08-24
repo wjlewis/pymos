@@ -1,10 +1,8 @@
 import React from 'react';
 import * as L from './locations';
+import { StepProps } from './index';
 import { StateContext, RightTriangle } from '../state';
-import { useAnimationFrame } from '../hooks';
 import { Anim, Extras as AnimExtras } from '../tools';
-import Canvas from '../Canvas';
-import Controls from '../Controls';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';
@@ -15,21 +13,22 @@ const Section: React.FC = () => {
       <h2>Some Auxiliary Elements</h2>
 
       <p>
-        To start, we construct two larger squares around our original right
+        To start, we construct two larger rectangles around our original right
         triangle: one containing the <code>&ldquo;c&rdquo;</code> square, and
         the other containing the two smaller squares.
       </p>
 
       <p>
-        Curiously enough, both of these &ldquo;auxiliary&rdquo; squares appear
-        to have the same area. Is this the case? If so, can you see why? We'll
-        look at these questions next.
+        Curiously enough, both of these &ldquo;auxiliary&rdquo; rectangles
+        appear to be squares. Furthermore, no matter our triangle's proportions,
+        both appear to have the same area. Is this the case? If so, can you see
+        why? We'll look at these questions next.
       </p>
     </section>
   );
 };
 
-const Graphics: React.FC = () => {
+const Graphics: React.FC<StepProps> = ({ frame }) => {
   const { state } = React.useContext(StateContext);
 
   const auxSquares = React.useMemo(
@@ -37,24 +36,17 @@ const Graphics: React.FC = () => {
     [state.tri]
   );
 
-  const animControls = useAnimationFrame(auxSquares.duration);
-  const { frame } = animControls;
-
   const { abPath, cPath } = auxSquares.fn(frame);
 
   return (
     <>
-      <Canvas>
-        <Polygon className="main-square" pts={L.aSquare(state.tri)} />
-        <Polygon className="main-square" pts={L.bSquare(state.tri)} />
-        <Polygon className="main-square" pts={L.cSquare(state.tri)} />
-        <MainTriangle />
-        <Polygon className="aux-square" d={abPath} />
-        <Polygon className="aux-square" d={cPath} />
-        <ControlPoints />
-      </Canvas>
-
-      <Controls {...animControls} />
+      <Polygon className="main-square" pts={L.aSquare(state.tri)} />
+      <Polygon className="main-square" pts={L.bSquare(state.tri)} />
+      <Polygon className="main-square" pts={L.cSquare(state.tri)} />
+      <MainTriangle />
+      <Polygon className="aux-square" d={abPath} opacity={0} />
+      <Polygon className="aux-square" d={cPath} opacity={0} />
+      <ControlPoints />
     </>
   );
 };
@@ -76,6 +68,7 @@ interface AuxSquaresState {
 const step = {
   section: Section,
   graphics: Graphics,
+  duration: 3200,
 };
 
 export default step;

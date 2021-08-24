@@ -10,6 +10,16 @@ export function sign(n: number): number {
   }
 }
 
+export function clamp(n: number, min: number, max: number): number {
+  if (n < min) {
+    return min;
+  } else if (n > max) {
+    return max;
+  } else {
+    return n;
+  }
+}
+
 export function memo<A, B>(fn: (x: A) => B): (x: A) => B {
   let cachedInput: A;
   let cachedOutput: B;

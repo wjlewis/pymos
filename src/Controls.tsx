@@ -1,8 +1,12 @@
 import React from 'react';
+import Slider from './Slider';
+import playHref from './assets/play.svg';
+import pauseHref from './assets/pause.svg';
+import restartHref from './assets/restart.svg';
 
 export interface ControlsProps {
   frame: number;
-  isPlaying: boolean;
+  playing: boolean;
   duration: number;
   togglePlay: () => void;
   setFrame: (frame: number) => void;
@@ -10,10 +14,10 @@ export interface ControlsProps {
 }
 
 const Controls: React.FC<ControlsProps> = props => {
-  const { frame, isPlaying, duration, togglePlay, setFrame, restart } = props;
+  const { frame, playing, duration, togglePlay, setFrame, restart } = props;
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    return setFrame(Number(e.target.value));
+  function handleChange(frame: number) {
+    return setFrame(frame);
   }
 
   function handleClick() {
@@ -24,20 +28,16 @@ const Controls: React.FC<ControlsProps> = props => {
     }
   }
 
-  const buttonText =
-    frame >= duration ? 'Restart' : isPlaying ? 'Pause' : 'Play';
+  const buttonHref =
+    frame >= duration ? restartHref : playing ? pauseHref : playHref;
+  const buttonAlt = frame >= duration ? 'Restart' : playing ? 'Pause' : 'Play';
 
   return (
     <div id="controls">
-      <button onClick={handleClick}>{buttonText}</button>
-
-      <input
-        type="range"
-        min={0}
-        max={duration}
-        value={frame}
-        onChange={handleChange}
-      />
+      <button onClick={handleClick}>
+        <img src={buttonHref} alt={buttonAlt} />
+      </button>
+      <Slider min={0} max={duration} value={frame} onChange={handleChange} />
     </div>
   );
 };

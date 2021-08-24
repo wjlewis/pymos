@@ -2,7 +2,7 @@ import React from 'react';
 import * as L from './locations';
 import { StepProps } from './index';
 import { StateContext, RightTriangle, Actions as A } from '../state';
-import { Anim, Extras as AnimExtras, Vec } from '../tools';
+import { Anim, Extras as AnimExtras } from '../tools';
 import ControlPoints from '../ControlPoints';
 import MainTriangle from '../MainTriangle';
 import Polygon from '../Polygon';

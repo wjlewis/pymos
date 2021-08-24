@@ -4,7 +4,7 @@ import { Device } from '../state';
 export function useDevice(onChange: (device: Device) => void) {
   const callback = React.useRef(onChange);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     function recompute() {
       return callback.current(currentDevice());
     }

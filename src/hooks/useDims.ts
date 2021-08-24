@@ -1,6 +1,10 @@
 import React from 'react';
+import { noOp } from '../tools';
 
-export function useDims<E extends HTMLElement>(ref: React.RefObject<E>): Dims {
+export function useDims<E extends HTMLElement>(
+  ref: React.RefObject<E>,
+  onChange: (dims: Dims) => void = noOp
+): Dims {
   const [dims, setDims] = React.useState({
     width: 0,
     height: 0,
@@ -14,7 +18,7 @@ export function useDims<E extends HTMLElement>(ref: React.RefObject<E>): Dims {
         const { width, height, left, top } =
           ref.current.getBoundingClientRect();
         const dims = { width, height, left, top };
-        // onChange(dims);
+        onChange(dims);
         return setDims(dims);
       }
     }
@@ -23,7 +27,7 @@ export function useDims<E extends HTMLElement>(ref: React.RefObject<E>): Dims {
 
     window.addEventListener('resize', computeDims);
     return () => window.removeEventListener('resize', computeDims);
-  }, [ref]);
+  }, [ref, onChange]);
 
   return dims;
 }

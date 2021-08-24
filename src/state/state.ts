@@ -26,9 +26,9 @@ export const initTri: RightTriangle = {
 };
 
 export const smallInitTri: RightTriangle = {
-  r: new Vec(-40, 20),
-  h: new Vec(40, 20),
-  v: new Vec(-40, -20),
+  r: new Vec(-25, 20),
+  h: new Vec(25, 20),
+  v: new Vec(-25, -20),
 };
 
 export const initState: State = {

@@ -2,6 +2,8 @@ export * from './Anim';
 export * from './Vec';
 export * from './Pose';
 
+export function noOp(...args: any[]): any {}
+
 export function sign(n: number): number {
   if (n >= 0) {
     return 1;

@@ -20,8 +20,7 @@ const Illustration: React.FC<IllustrationProps> = props => {
     (dims: Dims) => dispatch(A.updateDims(dims)),
     [dispatch]
   );
-  //const dims = useDims(ref, reportDimsChange);
-  const dims = useDims(ref);
+  const dims = useDims(ref, reportDimsChange);
 
   const centerX = dims.width / 2;
   const centerY = dims.height / 2;

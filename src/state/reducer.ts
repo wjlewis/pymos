@@ -130,6 +130,14 @@ function reduceMouseUp(state: State): State {
 }
 
 function reduceMakeThin(state: State): State {
+  if (state.ui.device === Device.Laptop) {
+    return makeThinLaptop(state);
+  } else {
+    return makeThinMobile(state);
+  }
+}
+
+function makeThinLaptop(state: State): State {
   const r = new Vec(-80, 0);
   const h = new Vec(80, r.y);
   const v = new Vec(r.x, -VERTEX_PADDING);
@@ -137,11 +145,36 @@ function reduceMakeThin(state: State): State {
   return { ...state, tri: { ...state.tri, r, h, v } };
 }
 
+function makeThinMobile(state: State): State {
+  const r = new Vec(-60, 0);
+  const h = new Vec(60, r.y);
+  const v = new Vec(r.x, -VERTEX_PADDING);
+
+  return { ...state, tri: { ...state.tri, r, h, v } };
+}
+
 function reduceMakeEven(state: State): State {
+  if (state.ui.device === Device.Laptop) {
+    return makeEvenLaptop(state);
+  } else {
+    return makeEvenMobile(state);
+  }
+}
+
+function makeEvenLaptop(state: State): State {
   const r = new Vec(0, 20);
   // "roughly" even
   const h = new Vec(90, r.y);
   const v = new Vec(r.x, -80);
+
+  return { ...state, tri: { ...state.tri, r, h, v } };
+}
+
+function makeEvenMobile(state: State): State {
+  const r = new Vec(-25, 20);
+  // "roughly" even
+  const h = new Vec(25, r.y);
+  const v = new Vec(r.x, -20);
 
   return { ...state, tri: { ...state.tri, r, h, v } };
 }
@@ -176,7 +209,6 @@ function reduceResetMainTriangle(state: State): State {
 }
 
 function isTriOutOfBounds(state: State, dims: Dims): boolean {
-  return false;
   const { r } = state.tri;
   const { width, height } = dims;
 

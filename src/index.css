@@ -127,6 +127,14 @@ main {
   background-color: var(--bg-translucent);
 }
 
+a {
+  color: var(--blue);
+}
+
+a:hover {
+  color: var(--text);
+}
+
 /* Typography */
 h1,
 h2,

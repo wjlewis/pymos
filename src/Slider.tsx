@@ -67,8 +67,12 @@ const Slider: React.FC<SliderProps> = props => {
     return setMouseDown(true);
   }
 
+  function handleClick(e: React.MouseEvent) {
+    return onChange(computeValue(e.clientX - left));
+  }
+
   return (
-    <svg ref={ref} width="100%" height="45px">
+    <svg ref={ref} width="100%" height="45px" onClick={handleClick}>
       <g transform={transform}>
         <line
           className="slider-line"

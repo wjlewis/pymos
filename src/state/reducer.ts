@@ -1,4 +1,4 @@
-import { State, Dims, Device, initTri, smallInitTri } from './state';
+import { State, Dims, Device, Theme, initTri, smallInitTri } from './state';
 import { Action, ActionType } from './actions';
 import { steps } from '../steps';
 import { DragSubject } from './DragSubject';
@@ -30,6 +30,8 @@ export function reducer(state: State, action: Action): State {
       return reduceUpdateDevice(state, action.payload);
     case ActionType.ResetMainTriangle:
       return reduceResetMainTriangle(state);
+    case ActionType.ToggleTheme:
+      return reduceToggleTheme(state);
     default:
       return state;
   }
@@ -215,4 +217,9 @@ function isTriOutOfBounds(state: State, dims: Dims): boolean {
   const outX = Math.abs(r.x) > width / 2;
   const outY = Math.abs(r.y) > height / 2;
   return outX || outY;
+}
+
+function reduceToggleTheme(state: State): State {
+  const theme = state.ui.theme === Theme.Light ? Theme.Dark : Theme.Light;
+  return { ...state, ui: { ...state.ui, theme } };
 }

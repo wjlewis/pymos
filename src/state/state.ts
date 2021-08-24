@@ -12,11 +12,17 @@ export interface UIState {
   device: Device;
   dims: Dims;
   triOutOfBounds: boolean;
+  theme: Theme;
 }
 
 export enum Device {
   Laptop = 'Laptop',
   Mobile = 'Mobile',
+}
+
+export enum Theme {
+  Light = 'Light',
+  Dark = 'Dark',
 }
 
 export const initTri: RightTriangle = {
@@ -36,6 +42,7 @@ export const initState: State = {
     dims: { width: 0, height: 0 },
     triOutOfBounds: false,
     device: Device.Laptop,
+    theme: Theme.Light,
   },
   tri: initTri,
   dragSubject: DragSubject.None(),

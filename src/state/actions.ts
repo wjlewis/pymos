@@ -19,6 +19,7 @@ export enum ActionType {
   UpdateDims = 'UpdateDims',
   UpdateDevice = 'UpdateDevice',
   ResetMainTriangle = 'ResetMainTriangle',
+  ToggleTheme = 'ToggleTheme',
 }
 
 export function previousStep(): Action {
@@ -67,4 +68,8 @@ export function updateDevice(device: Device): Action {
 
 export function resetMainTriangle(): Action {
   return { type: ActionType.ResetMainTriangle };
+}
+
+export function toggleTheme(): Action {
+  return { type: ActionType.ToggleTheme };
 }

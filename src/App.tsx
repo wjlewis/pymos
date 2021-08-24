@@ -1,5 +1,11 @@
 import React from 'react';
-import { StateContext, initState, reducer, Actions as A } from './state';
+import {
+  StateContext,
+  initState,
+  reducer,
+  Actions as A,
+  Selectors as S,
+} from './state';
 import { useDevice } from './hooks';
 import Header from './Header';
 import Prose from './Prose';
@@ -11,14 +17,16 @@ const App: React.FC = () => {
   useDevice(device => dispatch(A.updateDevice(device)));
 
   return (
-    <StateContext.Provider value={{ state, dispatch }}>
-      <Header />
-      <main>
-        <Prose />
-        <Illustration />
-      </main>
-      <Footer />
-    </StateContext.Provider>
+    <main className={S.isLight(state) ? 'light' : 'dark'}>
+      <StateContext.Provider value={{ state, dispatch }}>
+        <Header />
+        <article id="content">
+          <Prose />
+          <Illustration />
+        </article>
+        <Footer />
+      </StateContext.Provider>
+    </main>
   );
 };
 

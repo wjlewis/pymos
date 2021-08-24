@@ -18,13 +18,19 @@ const Footer: React.FC = () => {
   return (
     <footer>
       <nav>
-        <button onClick={handlePrevious} disabled={noPrevious}>
+        <button
+          onClick={handlePrevious}
+          style={{ visibility: noPrevious ? 'hidden' : 'initial' }}
+        >
           Previous
         </button>
 
         <span>{S.stepProgress(state)}</span>
 
-        <button onClick={handleNext} disabled={noNext}>
+        <button
+          onClick={handleNext}
+          style={{ visibility: noNext ? 'hidden' : 'initial' }}
+        >
           Next
         </button>
       </nav>

@@ -1,4 +1,4 @@
-import { State, Dims } from './state';
+import { State, Dims, Theme } from './state';
 import { StepProps, steps } from '../steps';
 
 export function canGoPrevious(state: State): boolean {
@@ -35,4 +35,12 @@ export function dims(state: State): Dims {
 
 export function currentDuration(state: State): number {
   return steps[state.stepIndex].duration;
+}
+
+export function isLight(state: State): boolean {
+  return state.ui.theme === Theme.Light;
+}
+
+export function altThemeString(state: State): string {
+  return state.ui.theme === Theme.Light ? 'Dark' : 'Light';
 }

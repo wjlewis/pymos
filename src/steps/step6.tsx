@@ -13,7 +13,7 @@ import Label from '../Label';
 const Section: React.FC = () => {
   return (
     <section>
-      <h2>Considering the Leftovers (1)</h2>
+      <h2>Considering the Leftovers</h2>
 
       <p>
         We've just seen that the second auxiliary square contains 4 copies of

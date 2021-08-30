@@ -138,6 +138,7 @@ footer nav {
 
 #prose {
   overflow-y: auto;
+  padding-right: 16px;
 }
 
 #illustration {
@@ -408,6 +409,7 @@ main.dark .angle-measure.inside {
   #prose {
     grid-row: 1 / 2;
     margin: 0 2em;
+    padding-right: 0;
   }
 
   #illustration {
@@ -438,6 +440,7 @@ main.dark .angle-measure.inside {
 
   #prose {
     grid-row: 2 / 3;
+    padding-right: 0;
   }
 
   header {

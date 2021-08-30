@@ -13,7 +13,7 @@ import Label from '../Label';
 const Section: React.FC = () => {
   return (
     <section>
-      <h2>Considering the Leftovers (2)</h2>
+      <h2>Wrapping Up</h2>
 
       <p>
         The other auxiliary square has a similar property. In particular, it

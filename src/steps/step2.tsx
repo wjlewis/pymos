@@ -24,7 +24,7 @@ const Section: React.FC = () => {
       <h2>A Slight Reinterpretation</h2>
 
       <p>
-        We'll begin by reinterpreting the statement{' '}
+        We'll begin by reinterpreting the claim{' '}
         <code>
           a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
         </code>{' '}

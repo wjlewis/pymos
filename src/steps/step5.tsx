@@ -15,7 +15,7 @@ const Section: React.FC = () => {
       <h2>Computing Areas (2)</h2>
 
       <p>
-        The area of the second auxiliar rectangle is a bit trickier to compute.
+        The area of the second auxiliary rectangle is a bit trickier to compute.
         However, once we see that our original right triangle appears
         &ldquo;copied&rdquo; inside of it, it's clear that its sides have length{' '}
         <code>a + b</code> as well. Accordingly, it is <em>also</em> a square

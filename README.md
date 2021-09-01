@@ -40,7 +40,7 @@ While this conception is suitable (and often necessary) for simulation, it's uns
 Instead, we think of an animation as a pure function that, given a frame, produces a value. That is,
 
 ```typescript
-type Animation = <A>(frame: number) => A;
+type Animation<A> = (frame: number) => A;
 ```
 
 What does this buy us?
